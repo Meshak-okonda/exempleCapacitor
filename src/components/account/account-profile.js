@@ -8,17 +8,13 @@ import {
   Divider,
   Typography
 } from '@mui/material';
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import logo from "../../assets/logo.png";
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
+export const AccountProfile = (props) => {
+  const { user } = useAppSelector((state) => state.userConnected);
 
-export const AccountProfile = (props) => (
+  return (
   <Card {...props}>
     <CardContent>
       <Box
@@ -29,7 +25,7 @@ export const AccountProfile = (props) => (
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={user.image || logo.src}
           sx={{
             height: 64,
             mb: 2,
@@ -41,31 +37,32 @@ export const AccountProfile = (props) => (
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {user.name} {user.lastName}
         </Typography>
         <Typography
-          color="textSecondary"
-          variant="body2"
+          color="textPrimary"
+          gutterBottom
+          variant="h7"
         >
-          {`${user.city} ${user.country}`}
+          {user.email}
         </Typography>
         <Typography
-          color="textSecondary"
-          variant="body2"
+          color="textPrimary"
+          gutterBottom
+          variant="h7"
         >
-          {user.timezone}
+          {user.sex}
+        </Typography>
+        <Typography
+          color="textPrimary"
+          gutterBottom
+          variant="h7"
+        >
+          {user.age} ans
         </Typography>
       </Box>
     </CardContent>
     <Divider />
-    <CardActions>
-      <Button
-        color="primary"
-        fullWidth
-        variant="text"
-      >
-        Upload picture
-      </Button>
-    </CardActions>
   </Card>
 );
+}

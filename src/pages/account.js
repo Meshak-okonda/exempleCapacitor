@@ -3,12 +3,15 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import { AccountProfile } from '../components/account/account-profile';
 import { AccountProfileDetails } from '../components/account/account-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const Account = () => (
+const Account = () => {
+
+  return (
   <>
     <Head>
       <title>
-        Account | Material Kit
+        Account | Fleet Management Soft
       </title>
     </Head>
     <Box
@@ -49,7 +52,7 @@ const Account = () => (
       </Container>
     </Box>
   </>
-);
+);}
 
 Account.getLayout = (page) => (
   <DashboardLayout>

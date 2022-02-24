@@ -9,38 +9,11 @@ import {
   Grid,
   TextField
 } from '@mui/material';
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
 
 export const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
-
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
+  const { user } = useAppSelector((state) => state.userConnected);
 
   return (
     <form
@@ -50,8 +23,8 @@ export const AccountProfileDetails = (props) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
+          subheader="Mis à jour du profil"
+          title="Edition"
         />
         <Divider />
         <CardContent>
@@ -66,12 +39,11 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
+                helperText="Veuillez entrer le nom d'utilisateur Svp"
+                label="Nom d'utilisateur"
+                name="Nom d'utilisateur"
                 required
-                value={values.firstName}
+                value={user.name}
                 variant="outlined"
               />
             </Grid>
@@ -84,9 +56,8 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Last name"
                 name="lastName"
-                onChange={handleChange}
                 required
-                value={values.lastName}
+                value={user.lastName}
                 variant="outlined"
               />
             </Grid>
@@ -97,11 +68,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Email Address"
+                label="Adresse mail"
                 name="email"
-                onChange={handleChange}
                 required
-                value={values.email}
+                value={user.email}
                 variant="outlined"
               />
             </Grid>
@@ -112,11 +82,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Phone Number"
+                label="Numero de telephone"
                 name="phone"
-                onChange={handleChange}
                 type="number"
-                value={values.phone}
+                value={user.phone}
                 variant="outlined"
               />
             </Grid>
@@ -127,11 +96,10 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
+                label="Mot de pase"
+                name="password"
                 required
-                value={values.country}
+                value={user.password}
                 variant="outlined"
               />
             </Grid>
@@ -144,21 +112,20 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 label="Select State"
                 name="state"
-                onChange={handleChange}
                 required
                 select
                 SelectProps={{ native: true }}
-                value={values.state}
+                value={user.name}
                 variant="outlined"
               >
-                {states.map((option) => (
+                {/* {states.map((option) => (
                   <option
                     key={option.value}
                     value={option.value}
                   >
                     {option.label}
                   </option>
-                ))}
+                ))} */}
               </TextField>
             </Grid>
           </Grid>
