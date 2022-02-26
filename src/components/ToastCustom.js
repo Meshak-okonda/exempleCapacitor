@@ -20,7 +20,7 @@ export default function ToastCustom({
   const handleClose = () => setShow(false);
   setTimeout(()=>{
     handleClose();
-  }, 5000);
+  }, 10000);
   return (
       <ToastContainer
         position="top-center"
