@@ -1,15 +1,47 @@
 import { gql } from '@apollo/client';
 
 export const GET_RESPONSABLE = gql`
-	query {
-		getResponsables {
-			id
-			name
-			lastName
-			password
-		}
-	}
+  query {
+    getResponsables {
+      id
+      name
+      lastName
+      password
+      superAdm
+      addVehicle
+      upVehicle
+      delVehicle
+      addDriver
+      upDriver
+      delDriver
+      addResponsable
+      upResponsable
+      delResponsable
+      delete
+    }
+  }
 `;
+
+export const REVERSE_DRIVER = (id) => {
+	return gql`
+    mutation  {
+      reverseDeleteDriver(id: "${id}") {
+        id
+        lastName
+        password
+        licenseValidity
+        email
+        name
+        phone
+        image
+        age
+        sex
+        createdAt
+        delete
+      }
+    }
+  `;
+}
 
 export const GET_ONE_RESPONSABLE = (id) => {
 	return gql`
@@ -23,6 +55,12 @@ export const GET_ONE_RESPONSABLE = (id) => {
 				age
 				sex
 				lastName
+				superAdm
+				addVehicle
+				upVehicle
+				addDriver
+				upDriver
+				delete
 			}
 		}
 	`;
@@ -35,20 +73,21 @@ export const REINITIALISATION_ACCOUNT = gql`
 `;
 
 export const GET_VEHICLES = gql`
-	query GetVehicles {
-		getVehicles {
-			idDriver
-			id
-			name
-			model
-			serie
-			image
-			color
-			stratYear
-			registrationNumber
-			power
-		}
-	}
+  query GetVehicles {
+    getVehicles {
+      idDriver
+      id
+      name
+      model
+      serie
+      image
+      color
+      stratYear
+      registrationNumber
+      power
+      delete
+    }
+  }
 `;
 
 export const GET_VEHICLES_NAME_BY_ID = (id) => gql`
@@ -60,58 +99,72 @@ export const GET_VEHICLES_NAME_BY_ID = (id) => gql`
 `;
 
 export const REFRESH_ALL_DATA = gql`
-	query {
-		getResponsables {
-			id
-			name
-			lastName
-			email
-			phone
-			image
-			age
-			sex
-			delete
-			superAdm
-			createdAt
-		}
-		getDrivers {
-			id
-			name
-			lastName
-			password
-			licenseValidity
-			email
-			phone
-			image
-			age
-			sex
-			createdAt
-		}
-		getVehicles {
-			id
-			idDriver
-			name
-			model
-			serie
-			gpsData
-			image
-			color
-			startYear
-			registrationNumber
-			power
-		}
-		getTypeVehicles {
-			id
-			name
-			description
-			startYear
-		}
-		getVehicleHistories {
-			idDriver
-			idVehicle
-			createdAt
-		}
-	}
+  query {
+    getResponsables {
+      id
+      name
+      lastName
+      email
+      phone
+      image
+      age
+      sex
+      delete
+      superAdm
+      addVehicle
+      upVehicle
+      delVehicle
+
+      addDriver
+      upDriver
+      delDriver
+
+      addResponsable
+      upResponsable
+      delResponsable
+      createdAt
+      delete
+    }
+    getDrivers {
+      id
+      name
+      lastName
+      password
+      licenseValidity
+      email
+      phone
+      image
+      age
+      sex
+      createdAt
+      delete
+    }
+    getVehicles {
+      id
+      idDriver
+      name
+      model
+      serie
+      gpsData
+      image
+      color
+      startYear
+      registrationNumber
+      power
+      delete
+    }
+    getTypeVehicles {
+      id
+      name
+      description
+      startYear
+    }
+    getVehicleHistories {
+      idDriver
+      idVehicle
+      createdAt
+    }
+  }
 `;
 
 export const CONNECTION_RESPONSABLE = (name, password) => {
@@ -128,8 +181,20 @@ export const CONNECTION_RESPONSABLE = (name, password) => {
 		token
         age
 		superAdm
+		addVehicle
+		upVehicle
+		delVehicle
+
+		addDriver
+		upDriver
+		delDriver
+
+		addResponsable
+		upResponsable
+		delResponsable
         sex
         createdAt
+		delete
     }
 }
   `;
@@ -164,46 +229,49 @@ export const DELETE_VEHICLE = (id) => {
 				registrationNumber
 				power
 				createdAt
+				delete
 			}
 		}
 	`;
 };
 
 export const CREATE_VEHICLE = gql`
-	mutation createVehicle($vehicle: VehicleInput) {
-		createVehicle(vehicle: $vehicle) {
-			id
-			idDriver
-			name
-			serie
-			model
-			gpsData
-			image
-			color
-			startYear
-			registrationNumber
-			power
-			createdAt
-		}
-	}
+  mutation createVehicle($vehicle: VehicleInput) {
+    createVehicle(vehicle: $vehicle) {
+      id
+      idDriver
+      name
+      serie
+      model
+      gpsData
+      image
+      color
+      startYear
+      registrationNumber
+      power
+      createdAt
+      delete
+    }
+  }
 `;
 
 export const UPDATE_VEHICLE = gql`
-	mutation UpdateVehicle($updateVehicleId: String!, $vehicle: VehicleInput) {
-		updateVehicle(id: $updateVehicleId, vehicle: $vehicle) {
-			id
-			idDriver
-			name
-			model
-			serie
-			image
-			color
-			startYear
-			registrationNumber
-			power
-			createdAt
-		}
-	}
+  mutation UpdateVehicle($updateVehicleId: String!, $vehicle: VehicleInput) {
+    updateVehicle(id: $updateVehicleId, vehicle: $vehicle) {
+      id
+      idDriver
+      name
+      model
+      serie
+      image
+      color
+      startYear
+      registrationNumber
+      power
+      createdAt
+      delete
+    }
+  }
 `;
 
 export const CREATE_TYPE_VEHICLE = gql`
@@ -257,6 +325,7 @@ export const CREATE_DRIVER = gql`
 			image
 			age
 			sex
+			delete
 		}
 	}
 `;
@@ -275,43 +344,55 @@ export const DELETE_DRIVER = (id) => {
 				image
 				age
 				sex
+				delete
 			}
 		}
 	`;
 };
 
 export const UPDATE_DRIVER = gql`
-	mutation UpdateDriver($updateDriverId: String!, $driver: DriverInput) {
-		updateDriver(id: $updateDriverId, driver: $driver) {
-			id
-			name
-			lastName
-			password
-			licenseValidity
-			email
-			phone
-			image
-			age
-			sex
-		}
-	}
+  mutation UpdateDriver($updateDriverId: String!, $driver: DriverInput) {
+    updateDriver(id: $updateDriverId, driver: $driver) {
+      id
+      name
+      lastName
+      password
+      licenseValidity
+      email
+      phone
+      image
+      age
+      sex
+      delete
+    }
+  }
 `;
 
 export const CREATE_RESPONSABLE = gql`
-	mutation CreateResponsable($responsable: ResponsableInput) {
-		createResponsable(responsable: $responsable) {
-			id
-			name
-			lastName
-			password
-			email
-			phone
-			age
-			image
-			sex
-			createdAt
-		}
-	}
+  mutation CreateResponsable($responsable: ResponsableInput) {
+    createResponsable(responsable: $responsable) {
+      id
+      name
+      lastName
+      password
+      email
+      phone
+      age
+      image
+      addVehicle
+      upVehicle
+      delVehicle
+      addDriver
+      upDriver
+      delDriver
+      addResponsable
+      upResponsable
+      delResponsable
+      sex
+      createdAt
+      delete
+    }
+  }
 `;
 
 export const DELETE_RESPONSABLE = (id) => {
@@ -327,29 +408,41 @@ export const DELETE_RESPONSABLE = (id) => {
 				image
 				age
 				sex
+				delete
 			}
 		}
 	`;
 };
 
 export const UPDATE_RESPONSABLE = gql`
-	mutation UpdateResponsable(
-		$updateResponsableId: String!
-		$responsable: ResponsableInput
-	) {
-		updateResponsable(id: $updateResponsableId, responsable: $responsable) {
-			id
-			name
-			lastName
-			password
-			email
-			phone
-			image
-			age
-			sex
-			createdAt
-		}
-	}
+  mutation UpdateResponsable(
+    $updateResponsableId: String!
+    $responsable: ResponsableInput
+  ) {
+    updateResponsable(id: $updateResponsableId, responsable: $responsable) {
+      id
+      name
+      lastName
+      password
+      email
+      phone
+      image
+      superAdm
+      addVehicle
+      upVehicle
+      delVehicle
+      addDriver
+      upDriver
+      delDriver
+      addResponsable
+      upResponsable
+      delResponsable
+      age
+      sex
+      createdAt
+      delete
+    }
+  }
 `;
 
 export const CREATE_CONTROL_VEHICLE = gql`
