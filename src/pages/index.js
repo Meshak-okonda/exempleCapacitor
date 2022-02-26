@@ -17,6 +17,7 @@ import PopUpQuery from "../components/PopUpQuery";
 import { CONNECTION_RESPONSABLE } from "../graphql/queries";
 import {useAppDispatch} from "../hooks";
 import { connexionUser } from "../redux/slice/userSlice";
+import {getDate} from "../utils/index";
 
 const Login = () => {
   const [modalON, setModalON] = useState(false);
@@ -46,11 +47,10 @@ const Login = () => {
         .required("Le Mor de pass est requis"),
     }),
     onSubmit: () => {
-      console.log(formik.values.name, formik.values.name);
       setModalON(true);
       setTimeout(() => {
         allowButton();
-      }, 5000);
+      }, 1000);
     },
   });
 
@@ -60,10 +60,12 @@ const Login = () => {
 
   useEffect(() => {
     if (dataGet) {
-      console.log(dataGet);
       const { connectionResponsable } = dataGet;
       dispatch(connexionUser(connectionResponsable));
-      localStorage.setItem("user", JSON.stringify(connectionResponsable));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...connectionResponsable, date: getDate() })
+      );
       localStorage.setItem("token", connectionResponsable.token);
       setTimeout(() => {
         router.push("/dashbord");
