@@ -375,3 +375,12 @@ export function GetMonthInFrench(month) {
 	let monthFind = listMonth.find(({ id }) => parseInt(month) === id);
 	return monthFind.value;
 }
+
+export function getDate(){
+	const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const dateNow = `${day}/${month}/${year}`;
+  return dateNow;
+}
