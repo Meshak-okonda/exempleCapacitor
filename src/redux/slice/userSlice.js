@@ -9,7 +9,7 @@ export const userSlice = createSlice({
 		connexionUser: (state, action) => {
 			state.user = action.payload;
 		},
-		connexionClear: (state) => {
+		connexionClear: (state, action) => {
 			state.user = {};
 		},
 	},
