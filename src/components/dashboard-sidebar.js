@@ -13,33 +13,45 @@ import { User as UserIcon } from '../icons/user';
 import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
-import { Logo } from './logo';
-import { NavItem } from './nav-item';
+import { useAppDispatch } from "../hooks";
+import { connexionClear } from "../redux/slice/globalSlice";
+import { Logo } from "./logo";
+import { NavItem } from "./nav-item";
+import { GiExitDoor, GiSteeringWheel } from "react-icons/gi";
+import {AiFillCar, AiFillControl} from "react-icons/ai";
+import {RiAdminFill, RiDashboardFill} from "react-icons/ri";
+import {GrVolumeControl} from "react-icons/gr";
+import { FcStatistics } from "react-icons/fc";
 
 const items = [
   {
     href: "/dashbord",
-    icon: <ChartBarIcon fontSize="small" />,
+    icon: <RiDashboardFill fontSize="small" />,
     title: "Dashboard",
   },
   {
     href: "/vehicle",
-    icon: <UsersIcon fontSize="small" />,
+    icon: <AiFillCar fontSize="small" />,
     title: "Vehicule",
   },
   {
     href: "/control",
-    icon: <UsersIcon fontSize="small" />,
+    icon: <AiFillControl fontSize="small" />,
     title: "Controle",
   },
   {
+    href: "/statistic",
+    icon: <FcStatistics fontSize="small" />,
+    title: "Statistique",
+  },
+  {
     href: "/driver",
-    icon: <UsersIcon fontSize="small" />,
+    icon: <GiSteeringWheel fontSize="small" />,
     title: "Chauffeur",
   },
   {
     href: "/responsable",
-    icon: <UsersIcon fontSize="small" />,
+    icon: <RiAdminFill fontSize="small" />,
     title: "Responsable",
   },
   {
@@ -60,6 +72,7 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
+  const dispatch = useAppDispatch();
   const { open, onClose } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -80,6 +93,11 @@ export const DashboardSidebar = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath]
   );
+  const deconnexion = async () => {
+    await localStorage.removeItem("user");
+    await localStorage.removeItem("token");
+    dispatch(connexionClear);
+  };
 
   const content = (
     <>
@@ -121,11 +139,17 @@ export const DashboardSidebar = (props) => {
             px: 2,
             py: 3,
           }}
-        ></Box>
+        >
+          <NavItem
+            icon={<GiExitDoor />}
+            href="/"
+            title="Deconnection"
+            onClick={() => deconnexion()}
+          />
+        </Box>
       </Box>
     </>
   );
-
   if (lgUp) {
     return (
       <Drawer
