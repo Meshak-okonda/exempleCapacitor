@@ -10,12 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+import PopUpAddDriver from './PopUpAddDriver';
 import ButtonPdf from "../ButtonPdf";
 import ButtonExcel from "../ButtonExcel";
 
 export const DriverListToolbar = (props) => {
   const { vehicles, drivers } = useAppSelector((state) => state.globalState);
-
+  const { user } = useAppSelector((state) => state.userConnected);
+  const [modalAddOn, setModalAddOn] = useState(false);
   const [dataExport, setDataExport] = useState([]);
 
   const exportColumns = [
@@ -71,11 +73,15 @@ export const DriverListToolbar = (props) => {
             data={dataExport}
           />
           <ButtonExcel data={dataExport} nameFile="Liste Des Chauffeurs" />
-          <Button color="primary" variant="contained">
+
+          {user.addDriver && (<Button color="primary" onClick={() => setModalAddOn(true)} variant="contained">
             Creer un Chauffeur
-          </Button>
+          </Button>)}
         </Box>
       </Box>
+      {modalAddOn && (
+				<PopUpAddDriver openModal={modalAddOn} setModalON={setModalAddOn} />
+			)}
     </Box>
   );
 };
