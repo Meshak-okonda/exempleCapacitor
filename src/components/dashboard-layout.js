@@ -5,8 +5,9 @@ import { DashboardNavbar } from "./dashboard-navbar";
 import { DashboardSidebar } from "./dashboard-sidebar";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../hooks";
-import { connexionUser } from "../redux/slice/userSlice";
+import { connexionUser, connexionClear } from "../redux/slice/userSlice";
 import PopUpRefreshData from "./data/PopUpRefreshData";
+import { getDate } from "../utils/index";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -26,10 +27,11 @@ export const DashboardLayout = (props) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
+    if (user && user.date === getDate()) {
       dispatch(connexionUser(user));
     } else {
-      router.push("/");
+      dispatch(connexionClear());
+      router.push("/404");
     }
   }, [router]);
 
