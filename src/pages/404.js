@@ -32,15 +32,14 @@ const NotFound = () => (
             color="textPrimary"
             variant="h1"
           >
-            404: The page you are looking for isn’t here
+            404: Page inacessible
           </Typography>
           <Typography
             align="center"
             color="textPrimary"
             variant="subtitle2"
           >
-            You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
+            La page demander n'existe pas ou vous n'y etès pas autorisé.
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <img
@@ -64,7 +63,7 @@ const NotFound = () => (
               sx={{ mt: 3 }}
               variant="contained"
             >
-              Go back to dashboard
+              Revenir à la connection
             </Button>
           </NextLink>
         </Box>
