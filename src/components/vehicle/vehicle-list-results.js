@@ -19,6 +19,7 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
+  Grid
 } from "@mui/material";
 import { DELETE_VEHICLE } from '../../graphql/queries';
 import { stringAvatar } from "../../utils/getStringAvatar";
@@ -32,9 +33,12 @@ import ButtonView from "../ButtonView";
 import ButtonDelete from "../ButtonDelete";
 import ButtonEdit from "../ButtonEdit";
 import ToastCustom from '../ToastCustom';
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export const VehicleListResults = ({ ...rest }) => {
   const { vehicles, drivers } = useAppSelector((state) => state.globalState);
+  const { user } = useAppSelector((state) => state.userConnected);
   const dispatch = useAppDispatch();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -52,7 +56,12 @@ export const VehicleListResults = ({ ...rest }) => {
 		state: false,
 		type: '',
 		delay: 6000,
-	});
+  });
+  const [valueView, setValueView] = useState(1);
+
+  const handleChangeView = (event, newValueView) => {
+    setValueView(newValueView);
+  };
 
   useEffect(()=>{
     setVehicleView(vehicles);
@@ -147,161 +156,193 @@ export const VehicleListResults = ({ ...rest }) => {
 
   return (
     <>
-    <Box sx={{ mt: 1, mb: 1 }}>
+      <Box sx={{ mt: 1, mb: 1 }}>
         <Card>
           <CardContent>
-            <Box sx={{ maxWidth: 500 }}>
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon color="action" fontSize="small">
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={({ target: { value } }) => {
-							setFilter(value);
-							if (value.trim() === '') {
-								setVehicleView(vehicles);
-								return 0;
-							}
-							setVehicleFilter(
-								vehicles.filter((veh) => {
-									if (veh.name.toUpperCase().indexOf(value.toUpperCase()) > -1)
-										return veh;
-								})
-							);
-              setVehicleView(vehicleFilter.length < 1 ? vehicles : vehicleFilter);
-						}}
-                placeholder="Search customer"
-                variant="outlined"
-              />
-            </Box>
+            <Grid container spacing={3}>
+              <Grid item md={6} xs={12}>
+                <Box sx={{ maxWidth: 500 }}>
+                  <TextField
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SvgIcon color="action" fontSize="small">
+                            <SearchIcon />
+                          </SvgIcon>
+                        </InputAdornment>
+                      ),
+                    }}
+                    onChange={({ target: { value } }) => {
+                      setFilter(value);
+                      if (value.trim() === "") {
+                        setVehicleView(vehicles);
+                        return 0;
+                      }
+                      setVehicleFilter(
+                        vehicles.filter((veh) => {
+                          if (
+                            veh.name
+                              .toUpperCase()
+                              .indexOf(value.toUpperCase()) > -1
+                          )
+                            return veh;
+                        })
+                      );
+                      setVehicleView(
+                        vehicleFilter.length < 1 ? vehicles : vehicleFilter
+                      );
+                    }}
+                    placeholder="Search customer"
+                    variant="outlined"
+                  />
+                </Box>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <ToggleButtonGroup
+                  value={valueView}
+                  exclusive
+                  onChange={handleChangeView}
+                  aria-label="text alignment"
+                >
+                  <ToggleButton value="3" aria-label="left aligned">
+                    Tout
+                  </ToggleButton>
+                  <ToggleButton value="1" aria-label="centered">
+                    Non Supplimer
+                  </ToggleButton>
+                  <ToggleButton value="2" aria-label="right aligned">
+                    Supprimer
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
       </Box>
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nom</TableCell>
-                <TableCell>Chauffeur</TableCell>
-                <TableCell>Année de debut</TableCell>
-                <TableCell>Numero de serie</TableCell>
-                <TableCell>Puissance</TableCell>
-                <TableCell>Numero d'enreg.</TableCell>
-                 <TableCell>
-                  Voir
-                </TableCell>
-                <TableCell>
-                  Maj
-                </TableCell>
-                <TableCell>
-                  Sup
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {vehicleView.slice(0, limit).map((vehicle) => (
-                <TableRow
-                  hover
-                  key={vehicle.id}
-                  selected={selectedCustomerIds.indexOf(vehicle.id) !== -1}
-                >
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      {vehicle.image[0] ? (
-                        <Avatar src={vehicle.image[0]} sx={{ mr: 2 }}>
-                          {vehicle.name}
-                        </Avatar>
-                      ) : (
-                        <Avatar {...stringAvatar(vehicle.name)} />
-                      )}
-                      <Typography color="textPrimary" variant="body1">
-                        {vehicle.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: "center",
-                        display: "flex",
-                      }}
-                    >
-                      {viewDriver(vehicle.idDriver)}
-                    </Box>
-                  </TableCell>
-                  <TableCell>{vehicle.startYear}</TableCell>
-                  <TableCell>{`${vehicle.registrationNumber}`}</TableCell>
-                  <TableCell>{vehicle.power}</TableCell>
-                  <TableCell>{vehicle.registrationNumber}</TableCell>
-                  <TableCell >
-                    <ButtonView onClick={(event) => {
-                    setIdSelect(vehicle.id);
-                    setModalSeeVehicle(true);
-                  }} 
-                  />
-                  </TableCell>
-                  <TableCell >
-                    <ButtonEdit onClick={()=>{
-                      setIdSelect(vehicle.id);
-						          setModalUpdateOn(true);
-                    }}/>
-                  </TableCell>
-                  <TableCell >
-                    <ButtonDelete onClick={()=>{
-                      setIdSelect(vehicle.id);
-						          setModalOnDelete(true);
-                    }}/>
-                  </TableCell>
+      <Card {...rest}>
+        <PerfectScrollbar>
+          <Box sx={{ minWidth: 1050 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nom</TableCell>
+                  <TableCell>Chauffeur</TableCell>
+                  <TableCell>Année de debut</TableCell>
+                  <TableCell>Numero de serie</TableCell>
+                  <TableCell>Puissance</TableCell>
+                  <TableCell>Numero d'enreg.</TableCell>
+                  <TableCell>Voir</TableCell>
+
+                  {user.upVehicle && <TableCell>Maj</TableCell>}
+                  {user.delVehicle && <TableCell>Sup</TableCell>}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={vehicles.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-      {modalSeeVehicle && (
-        <PopUpSeeVehicle
-          setModalON={setModalSeeVehicle}
-          openModal={modalSeeVehicle}
-          vehicle={vehicles.find((veh) => veh.id === idSelect)}
+              </TableHead>
+              <TableBody>
+                {vehicleView.slice(0, limit).map((vehicle) => (
+                  <TableRow
+                    hover
+                    key={vehicle.id}
+                    selected={selectedCustomerIds.indexOf(vehicle.id) !== -1}
+                  >
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        {vehicle.image[0] ? (
+                          <Avatar src={vehicle.image[0]} sx={{ mr: 2 }}>
+                            {vehicle.name}
+                          </Avatar>
+                        ) : (
+                          <Avatar {...stringAvatar(vehicle.name)} />
+                        )}
+                        <Typography color="textPrimary" variant="body1">
+                          {vehicle.name}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        {viewDriver(vehicle.idDriver)}
+                      </Box>
+                    </TableCell>
+                    <TableCell>{vehicle.startYear}</TableCell>
+                    <TableCell>{`${vehicle.registrationNumber}`}</TableCell>
+                    <TableCell>{vehicle.power}</TableCell>
+                    <TableCell>{vehicle.registrationNumber}</TableCell>
+                    <TableCell>
+                      <ButtonView
+                        onClick={(event) => {
+                          setIdSelect(vehicle.id);
+                          setModalSeeVehicle(true);
+                        }}
+                      />
+                    </TableCell>
+                    {user.upVehicle && (
+                      <TableCell>
+                        <ButtonEdit
+                          onClick={() => {
+                            setIdSelect(vehicle.id);
+                            setModalUpdateOn(true);
+                          }}
+                        />
+                      </TableCell>
+                    )}
+                    {user.delVehicle && (
+                      <TableCell>
+                        <ButtonDelete
+                          onClick={() => {
+                            setIdSelect(vehicle.id);
+                            setModalOnDelete(true);
+                          }}
+                        />
+                      </TableCell>
+                    )}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        </PerfectScrollbar>
+        <TablePagination
+          component="div"
+          count={vehicles.length}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleLimitChange}
+          page={page}
+          rowsPerPage={limit}
+          rowsPerPageOptions={[5, 10, 25]}
         />
-      )}
-      {modalUpdateOn && (
-					<PopUpModifyVehicle
-						openModal={modalUpdateOn}
-						setModalON={setModalUpdateOn}
-						vehicleUpdate={vehicles.find((veh) => veh.id === idSelect)}
-					/>
-				)}
+        {modalSeeVehicle && (
+          <PopUpSeeVehicle
+            setModalON={setModalSeeVehicle}
+            openModal={modalSeeVehicle}
+            vehicle={vehicles.find((veh) => veh.id === idSelect)}
+          />
+        )}
+        {modalUpdateOn && (
+          <PopUpModifyVehicle
+            openModal={modalUpdateOn}
+            setModalON={setModalUpdateOn}
+            vehicleUpdate={vehicles.find((veh) => veh.id === idSelect)}
+          />
+        )}
         {modalOnDelete && (
-					<PopUpMutation
-						openModal={modalOnDelete}
-						query={DELETE_VEHICLE(idSelect)}
-						setModalON={setModalOnDelete}
-						confirmMutation={confirmMutation}
-					/>
-				)}
+          <PopUpMutation
+            openModal={modalOnDelete}
+            query={DELETE_VEHICLE(idSelect)}
+            setModalON={setModalOnDelete}
+            confirmMutation={confirmMutation}
+          />
+        )}
         {toast.state && (
           <ToastCustom
             header={toast.header}
@@ -309,9 +350,9 @@ export const VehicleListResults = ({ ...rest }) => {
             stateToast={toast.state}
             type={toast.type}
             delay={toast.delay}
-				/>
-			)}
-    </Card>
+          />
+        )}
+      </Card>
     </>
   );
 };
