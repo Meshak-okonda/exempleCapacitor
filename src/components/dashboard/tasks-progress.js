@@ -1,50 +1,69 @@
-import { Avatar, Box, Card, CardContent, Grid, LinearProgress, Typography } from '@mui/material';
-import InsertChartIcon from '@mui/icons-material/InsertChartOutlined';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { useAppSelector } from "../../hooks";
+import { RiAdminFill } from "react-icons/ri";
 
-export const TasksProgress = (props) => (
-  <Card
-    sx={{ height: '100%' }}
-    {...props}
-  >
-    <CardContent>
-      <Grid
-        container
-        spacing={3}
-        sx={{ justifyContent: 'space-between' }}
-      >
-        <Grid item>
-          <Typography
-            color="textSecondary"
-            gutterBottom
-            variant="overline"
-          >
-            TASKS PROGRESS
-          </Typography>
-          <Typography
-            color="textPrimary"
-            variant="h4"
-          >
-            75.5%
-          </Typography>
+export const TasksProgress = (props) => {
+  const { vehicles, responsables } = useAppSelector(
+    (state) => state.globalState
+  );
+  const { user } = useAppSelector((state) => state.userConnected);
+  return (
+    <Card sx={{ height: "100%" }} {...props}>
+      <CardContent>
+        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+          <Grid item>
+            <Typography color="textSecondary" gutterBottom variant="overline">
+              Responsables
+            </Typography>
+            <Typography color="textPrimary" variant="h5">
+              {responsables.filter((res) => res.delete != true).length}{" "}
+              Responsables
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Avatar
+              sx={{
+                backgroundColor: "error.main",
+                height: 56,
+                width: 56,
+              }}
+            >
+              <RiAdminFill />
+            </Avatar>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Avatar
+        {user.superAdm && (
+          <Box
             sx={{
-              backgroundColor: 'warning.main',
-              height: 56,
-              width: 56
+              pt: 2,
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <InsertChartIcon />
-          </Avatar>
-        </Grid>
-      </Grid>
-      <Box sx={{ pt: 3 }}>
-        <LinearProgress
-          value={75.5}
-          variant="determinate"
-        />
-      </Box>
-    </CardContent>
-  </Card>
-);
+            <ArrowDownwardIcon color="error" />
+            <Typography
+              color="error"
+              sx={{
+                mr: 1,
+              }}
+              variant="body2"
+            >
+              {responsables.filter((res) => res.delete == true).length}
+            </Typography>
+            <Typography color="textSecondary" variant="caption">
+              Responsables supprimer
+            </Typography>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
