@@ -56,7 +56,7 @@ export const AccountProfileDetails = (props) => {
 			localStorage.setItem(
         "user",
         JSON.stringify({ ...updateResponsable, date: getDate() })
-      );
+      	);
 			setTimeout(() => {
 				setModalON(false);
 			}, 1000);
@@ -71,7 +71,6 @@ export const AccountProfileDetails = (props) => {
 
 	async function onSubmit(data) {
     const { token, createdAt, id, date, superAdm, password, ...otherInfo } = user;
-	console.log({ ...otherInfo, ...data });
     setVariablesMutation({ ...otherInfo, ...data });
     setModalOn(true);
   }
@@ -103,335 +102,350 @@ export const AccountProfileDetails = (props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
-        <CardHeader
-          subheader="Mis à jour du profil"
-          title="Edition"
-        />
+        <CardHeader subheader="Mis à jour du profil" title="Edition" />
         <Divider />
         <CardContent>
-          <Grid
-            container
-            spacing={3}
-          >
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
+          <Grid container spacing={3}>
+            <Grid item md={6} xs={12}>
               <Controller
-					name='name'
-					control={control}
-					rules={{
-						required: true,
-						pattern: /^[a-zA-Z]+$/,
-						maxLength: 20,
-						minLength: 3,
-					}}
-					defaultValue={user.name}
-					render={({ field }) => {
-						return (
-							<>
-							<TextField
-									fullWidth
-									label="Nom *"
-									variant="outlined"
-									id={field.name}
-									error={errors.name}
-									{...field}
-									value={field.value}
-									type="text"
-								/>
-								{errors.name && errors.name.type === 'required' && (
-									<small className='alert-danger p-1'>
-										Le nom est requis !
-									</small>
-								)}
-								{errors.name && errors.name.type === 'maxLength' && (
-									<small className='alert-danger p-1'>
-										La taille minimal n'est pas respecter (20 caractères)
-									</small>
-								)}
-								{errors.name && errors.name.type === 'minLength' && (
-									<small className='alert-danger p-1'>
-										La taille minimal n'est pas respecter (3 caractères)
-									</small>
-								)}
-								{errors.name && errors.name.type === 'pattern' && (
-									<small className='alert-danger p-1'>
-										Le nom ne doit contenir que des lettres
-									</small>
-								)}
-							</>
-						);
-					}}
-				/>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <Controller
-					name='lastName'
-					control={control}
-					rules={{
-						required: true,
-						pattern: /^[a-zA-Z]+$/,
-						maxLength: 20,
-						minLength: 3,
-					}}
-					defaultValue={user.lastName}
-					render={({ field }) => {
-						return (
-							<>
-								<TextField
-									fullWidth
-									label="Post nom *"
-									variant="outlined"
-									id={field.name}
-									error={errors.name}
-									{...field}
-									value={field.value}
-									type="text"
-								/>
-												{errors.lastName && errors.lastName.type === 'required' && (
-					<small className='alert-danger p-1'>
-						Le post nom est requis !
-					</small>
-				)}
-				{errors.lastName && errors.lastName.type === 'maxLength' && (
-					<small className='alert-danger p-1'>
-						La taille minimal n'est pas respecter (20 caractères)
-					</small>
-				)}
-				{errors.lastName && errors.lastName.type === 'minLength' && (
-					<small className='alert-danger p-1'>
-						La taille minimal n'est pas respecter (3 caractères)
-					</small>
-				)}
-				{errors.lastName && errors.lastName.type === 'pattern' && (
-					<small className='alert-danger p-1'>
-						le post nom ne doit contenir que des lettres
-					</small>
-				)}
-							</>
-						);
-					}}
-				/>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <Controller
-					name='email'
-					control={control}
-					rules={{
-						maxLength: 50,
-						minLength: 3,
-						pattern:
-							/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-					}}
-					defaultValue={user.email}
-					render={({ field }) => {
-						return (
-							<>
-							<TextField
-								fullWidth
-								label="E - Mail *"
-								variant="outlined"
-								id={field.name}
-								error={errors.name}
-								{...field}
-								value={field.value}
-								type="text"
-							/>
-							{errors.email && errors.email.type === 'maxLength' && (
-								<small className='alert-danger p-1'>
-									La taille minimal n'est pas respecter (20 caractères)
-								</small>
-							)}
-							{errors.email && errors.email.type === 'minLength' && (
-								<small className='alert-danger p-1'>
-									La taille minimal n'est pas respecter (3 caractères)
-								</small>
-							)}
-							{errors.email && errors.email.type === 'pattern' && (
-								<small className='alert-danger p-1'>email invalide</small>
-							)}
-							</>
-						);
-					}}
-				/>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <Controller
-					name='phone'
-					control={control}
-					rules={{
-						required: true,
-						maxLength: 50,
-						minLength: 8,
-						pattern: /^[0-9]+$/,
-					}}
-					defaultValue={user.phone}
-					render={({ field }) => {
-						return (
-							<>
-							<TextField
-								fullWidth
-								label="Numero de telephone *"
-								variant="outlined"
-								id={field.name}
-								error={errors.name}
-								{...field}
-								value={field.value}
-								type="text"
-							/>
-							{errors.phone && errors.phone.type === 'required' && (
-								<small className='alert-danger p-1'>
-									le mot de passe est requis !
-								</small>
-							)}
-							{errors.phone && errors.phone.type === 'maxLength' && (
-								<small className='alert-danger p-1'>
-									La taille minimal n'est pas respecter (50 caractères)
-								</small>
-							)}
-							{errors.phone && errors.phone.type === 'minLength' && (
-								<small className='alert-danger p-1'>
-									La taille minimal n'est pas respecter (8 caractères)
-								</small>
-							)}
-							{errors.phone && errors.phone.type === 'pattern' && (
-								<small className='alert-danger p-1'>
-									le format du numero de telephone est invalide (0-9)
-								</small>
-							)}
-							</>
-						);
-					}}
-				/>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <Controller
-					name='age'
-					control={control}
-					rules={{
-						required: true,
-					}}
-					defaultValue={user.age}
-					render={({ field }) => {
-						return (
-							<>
-							<InputLabel id="demo-simple-select-standard-label">
-								Age *
-							</InputLabel>
-							<Select
-								labelId="demo-simple-select-label"
-								id="demo-simple-select"
-								value={`${field.value}`}
-								label="Age *"
-								fullWidth
-								onChange={({ target: { value } }) => {
-								field.onChange(parseInt(value));
-								}}
-							>
-								{GetAges().map(({ value, label }) => (
-								<MenuItem value={value}>{label}</MenuItem>
-								))}
-							</Select>
-							{errors.age && (
-								<small className='alert-danger p-1'>L'age est requis !</small>
-							)}
-							</>
-						);
-					}}
-				/>
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <Controller
-					name='sex'
-					control={control}
-					rules={{
-						required: true,
-					}}
-					defaultValue={user.sex}
-					render={({ field }) => {
-						return (
-							<>
-							<InputLabel id="demo-simple-select-standard-label">
-                Sex *
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={field.value}
-                label="Sexe du responsable"
-				placeholder={field.value}
-                fullWidth
-                onChange={({ target: { value } }) => {
-                  field.onChange(value);
+                name="name"
+                control={control}
+                rules={{
+                  required: true,
+                  pattern: /^[a-zA-Z]+$/,
+                  maxLength: 20,
+                  minLength: 3,
                 }}
-              >
-                {GetSex().map(({ value, label }) => (
-                  <MenuItem value={value}>{label}</MenuItem>
-                ))}
-              </Select>
-						  {errors.sex && (
-							<small className='alert-danger p-1'>
-								Le sexe est requis !
-							</small>
-						)}
-						</>
-						);
-					}}
-				/>
+                defaultValue={user.name}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="Nom *"
+                        variant="outlined"
+                        id={field.name}
+                        error={errors.name}
+                        {...field}
+                        value={field.value}
+                        type="text"
+                      />
+                      {errors.name && errors.name.type === "required" && (
+                        <small className="alert-danger p-1">
+                          Le nom est requis !
+                        </small>
+                      )}
+                      {errors.name && errors.name.type === "maxLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (20 caractères)
+                        </small>
+                      )}
+                      {errors.name && errors.name.type === "minLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (3 caractères)
+                        </small>
+                      )}
+                      {errors.name && errors.name.type === "pattern" && (
+                        <small className="alert-danger p-1">
+                          Le nom ne doit contenir que des lettres
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="lastName"
+                control={control}
+                rules={{
+                  required: true,
+                  pattern: /^[a-zA-Z]+$/,
+                  maxLength: 20,
+                  minLength: 3,
+                }}
+                defaultValue={user.lastName}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="Post nom *"
+                        variant="outlined"
+                        id={field.name}
+                        error={errors.name}
+                        {...field}
+                        value={field.value}
+                        type="text"
+                      />
+                      {errors.lastName &&
+                        errors.lastName.type === "required" && (
+                          <small className="alert-danger p-1">
+                            Le post nom est requis !
+                          </small>
+                        )}
+                      {errors.lastName &&
+                        errors.lastName.type === "maxLength" && (
+                          <small className="alert-danger p-1">
+                            La taille minimal n'est pas respecter (20
+                            caractères)
+                          </small>
+                        )}
+                      {errors.lastName &&
+                        errors.lastName.type === "minLength" && (
+                          <small className="alert-danger p-1">
+                            La taille minimal n'est pas respecter (3 caractères)
+                          </small>
+                        )}
+                      {errors.lastName &&
+                        errors.lastName.type === "pattern" && (
+                          <small className="alert-danger p-1">
+                            le post nom ne doit contenir que des lettres
+                          </small>
+                        )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  maxLength: 50,
+                  minLength: 3,
+                  pattern:
+                    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                }}
+                defaultValue={user.email}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="E - Mail *"
+                        variant="outlined"
+                        id={field.name}
+                        error={errors.name}
+                        {...field}
+                        value={field.value}
+                        type="text"
+                      />
+                      {errors.email && errors.email.type === "maxLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (20 caractères)
+                        </small>
+                      )}
+                      {errors.email && errors.email.type === "minLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (3 caractères)
+                        </small>
+                      )}
+                      {errors.email && errors.email.type === "pattern" && (
+                        <small className="alert-danger p-1">
+                          email invalide
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="phone"
+                control={control}
+                rules={{
+                  maxLength: 50,
+                  minLength: 8,
+                  pattern: /^[0-9]+$/,
+                }}
+                defaultValue={user.phone}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="Numero de telephone *"
+                        variant="outlined"
+                        id={field.name}
+                        error={errors.name}
+                        {...field}
+                        value={field.value}
+                        type="text"
+                      />
+                      {errors.phone && errors.phone.type === "maxLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (50 caractères)
+                        </small>
+                      )}
+                      {errors.phone && errors.phone.type === "minLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (8 caractères)
+                        </small>
+                      )}
+                      {errors.phone && errors.phone.type === "pattern" && (
+                        <small className="alert-danger p-1">
+                          le format du numero de telephone est invalide (0-9)
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="age"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                defaultValue={user.age}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Age *
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={`${field.value}`}
+                        label="Age *"
+                        fullWidth
+                        onChange={({ target: { value } }) => {
+                          field.onChange(parseInt(value));
+                        }}
+                      >
+                        {GetAges().map(({ value, label }) => (
+                          <MenuItem value={value}>{label}</MenuItem>
+                        ))}
+                      </Select>
+                      {errors.age && (
+                        <small className="alert-danger p-1">
+                          L'age est requis !
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="sex"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                defaultValue={user.sex}
+                render={({ field }) => {
+                  return (
+                    <>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Sex *
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={field.value}
+                        label="Sexe du responsable"
+                        placeholder={field.value}
+                        fullWidth
+                        onChange={({ target: { value } }) => {
+                          field.onChange(value);
+                        }}
+                      >
+                        {GetSex().map(({ value, label }) => (
+                          <MenuItem value={value}>{label}</MenuItem>
+                        ))}
+                      </Select>
+                      {errors.sex && (
+                        <small className="alert-danger p-1">
+                          Le sexe est requis !
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  maxLength: 50,
+                  minLength: 8,
+                  pattern: /^[0-9]+$/,
+                }}
+                defaultValue=""
+                render={({ field }) => {
+                  return (
+                    <>
+                      <TextField
+                        fullWidth
+                        label="Mot de passe"
+                        variant="outlined"
+                        id={field.name}
+                        error={errors.name}
+                        {...field}
+                        type="text"
+                      />
+                      {errors.password && errors.password.type === "required" && (
+                        <small className="alert-danger p-1">
+                          le mot de passe est requis !
+                        </small>
+                      )}
+                      {errors.password && errors.password.type === "maxLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (50 caractères)
+                        </small>
+                      )}
+                      {errors.password && errors.password.type === "minLength" && (
+                        <small className="alert-danger p-1">
+                          La taille minimal n'est pas respecter (8 caractères)
+                        </small>
+                      )}
+                    </>
+                  );
+                }}
+              />
             </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2
+            display: "flex",
+            justifyContent: "flex-end",
+            p: 2,
           }}
         >
           <ButtonSubmit autoFocus type="submit" />
         </Box>
       </Card>
-        {modalOn && (
-          <PopUpMutation
-            query={UPDATE_RESPONSABLE}
-            setModalON={setModalOn}
-            openModal={modalOn}
-            confirmMutation={confirmMutation}
-            setDataGet={setData}
-          />
-        )}
-        {toast.state && (
-          <ToastCustom
-            stateToast={toast.state}
-            body={toast.message}
-            header={toast.header}
-            delay={toast.delay}
-            type={toast.type}
-          />
-        )}
-      </form>
+      {modalOn && (
+        <PopUpMutation
+          query={UPDATE_RESPONSABLE}
+          setModalON={setModalOn}
+          openModal={modalOn}
+          confirmMutation={confirmMutation}
+          setDataGet={setData}
+        />
+      )}
+      {toast.state && (
+        <ToastCustom
+          stateToast={toast.state}
+          body={toast.message}
+          header={toast.header}
+          delay={toast.delay}
+          type={toast.type}
+        />
+      )}
+    </form>
   );
 };
