@@ -148,7 +148,7 @@ export default function PopUpModifyResponsable({
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent dividers>
 		<div className='p-fluid p-formgrid p-grid'>
-			<Row className="mt-3 mb-3">
+			{user.superAdm && <><Row className="mt-3 mb-3">
 							<Col>
 							<Controller
 								name='addResponsable'
@@ -309,7 +309,7 @@ export default function PopUpModifyResponsable({
 											field.onChange(checked);
 										}}
 										checked={field.value} />
-										} label="Modification Vehicule" />
+										} label="Modification Chauffeur" />
 										</>
 									);
 								}}
@@ -329,13 +329,14 @@ export default function PopUpModifyResponsable({
 											field.onChange(checked);
 										}}
 										checked={field.value} />
-										} label="Supprimer Vehicule" />
+										} label="Supprimer Chauffeur" />
 										</>
 									);
 								}}
 							/>
 						</Col>
 					</Row>
+					</>}
 			<Row className="mt-3 mb-3">
 			<Col className='p-field p-col-12 p-md-6'>
 				<Controller
