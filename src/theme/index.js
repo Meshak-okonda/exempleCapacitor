@@ -141,7 +141,7 @@ export const theme = createTheme({
       600: "#4B5563",
       700: "#374151",
       800: "#1F2937",
-      900: "#111827",
+      900: "#003863",
     },
     action: {
       active: "#6B7280",
@@ -155,11 +155,14 @@ export const theme = createTheme({
       default: "#F9FAFC",
       paper: "#FFFFFF",
     },
+    navBackground: {
+      default: "#002744",
+    },
     divider: "#E6E8F0",
     primary: {
       main: "#003863",
       light: "#003863",
-      dark: "#3FC79A",
+      dark: "rgb(0 39 68)",
       contrastText: "#FFFFFF",
     },
     secondary: {
