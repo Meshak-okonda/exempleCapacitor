@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import { DELETE_DRIVER, REVERSE_DRIVER } from "../../graphql/queries";
 import {
-  deleteDriver,
   updateDriveInState,
 } from "../../redux/slice/globalSlice";
 import { getInitials } from "../../utils/get-initials";
@@ -39,7 +38,7 @@ import ButtonEdit from "../ButtonEdit";
 import ToastCustom from "../ToastCustom";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ButtonSubmit from "../ButtonSubmit";
+import ButtonRecovery from "../ButtonRecovery";
 
 export const DriverListResults = ({ ...rest }) => {
   const { drivers, vehicles } = useAppSelector((state) => state.globalState);
@@ -91,7 +90,13 @@ export const DriverListResults = ({ ...rest }) => {
   }, [data, dispatch]);
 
   useEffect(() => {
-    setDriverView(drivers.filter((dri) => dri.delete === false));
+    if (valueView === "1") {
+      setDriverView(drivers.filter((dri) => dri.delete === false));
+    } else if (valueView === "2") {
+      setDriverView(drivers.filter((dri) => dri.delete != false));
+    } else {
+      setDriverView(drivers);
+    }
   }, [drivers]);
 
   const handleSelectAll = (event) => {
@@ -189,6 +194,45 @@ export const DriverListResults = ({ ...rest }) => {
       });
     }
   };
+  const handleSuperAdmSearch = (value) => {
+    setValueView('3');
+    setFilter(value);
+    if (value.trim() === "") {
+      setDriverView(drivers);
+      return 0;
+    }
+    setDriverFilter(
+      drivers.filter((dri) => {
+        if (
+          `${dri.name.toUpperCase()} ${dri.lastName.toUpperCase()}`.indexOf(
+            value.toUpperCase()
+          ) > -1
+        )
+          return dri;
+      })
+    );
+    setDriverView(driverFilter.length < 1 ? drivers : driverFilter);
+  };
+
+  const handleSearch = (value) => {
+    setValueView("3");
+    setFilter(value);
+    if (value.trim() === "") {
+      setDriverView(drivers);
+      return 0;
+    }
+    setDriverFilter(
+      drivers.filter((dri) => dri.delete === false).filter((dri) => {
+        if (
+          `${dri.name.toUpperCase()} ${dri.lastName.toUpperCase()}`.indexOf(
+            value.toUpperCase()
+          ) > -1
+        )
+          return dri;
+      })
+    );
+    setDriverView(driverFilter.length < 1 ? drivers.filter((dri) => dri.delete === false) : driverFilter);
+  };
 
   return (
     <>
@@ -212,24 +256,11 @@ export const DriverListResults = ({ ...rest }) => {
                     placeholder="Search customer"
                     variant="outlined"
                     onChange={({ target: { value } }) => {
-                      setFilter(value);
-                      if (value.trim() === "") {
-                        setDriverView(drivers);
-                        return 0;
+                      if (user.superAdm) {
+                        handleSuperAdmSearch(value);
+                      } else {
+                        handleSearch(value);
                       }
-                      setDriverFilter(
-                        drivers.filter((veh) => {
-                          if (
-                            `${veh.name.toUpperCase()} ${veh.lastName.toUpperCase()}`.indexOf(
-                              value.toUpperCase()
-                            ) > -1
-                          )
-                            return veh;
-                        })
-                      );
-                      setDriverView(
-                        driverFilter.length < 1 ? drivers : driverFilter
-                      );
                     }}
                   />
                 </Box>
@@ -276,7 +307,7 @@ export const DriverListResults = ({ ...rest }) => {
                   {user.delDriver && valueView == "1" && (
                     <TableCell>Sup</TableCell>
                   )}
-                  {user.delDriver && valueView != "1" && (
+                  {user.delDriver && valueView == "2" && (
                     <TableCell>Restorer</TableCell>
                   )}
                 </TableRow>
@@ -354,9 +385,9 @@ export const DriverListResults = ({ ...rest }) => {
                         />
                       </TableCell>
                     )}
-                    {user.delDriver && driver.delete && valueView != "1" && (
+                    {user.delDriver && driver.delete && valueView == "2" && (
                       <TableCell>
-                        <ButtonSubmit
+                        <ButtonRecovery
                           onClick={() => {
                             setModalOnRecovery(true);
                             setIdSelect(driver.id);
