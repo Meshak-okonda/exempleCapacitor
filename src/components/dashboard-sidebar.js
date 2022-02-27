@@ -112,14 +112,14 @@ export const DashboardSidebar = (props) => {
           <Box sx={{ p: 3 }} centered>
             <NextLink href="/dashbord" passHref>
               <a>
-                <Logo height={50} width={100} />
+                <Logo height={60} width={120} />
               </a>
             </NextLink>
           </Box>
         </div>
         <Divider
           sx={{
-            borderColor: "#2D3748",
+            borderColor: "#FFFFFF",
             my: 1,
           }}
         />
@@ -133,7 +133,7 @@ export const DashboardSidebar = (props) => {
             />
           ))}
         </Box>
-        <Divider sx={{ borderColor: "#2D3748" }} />
+        <Divider sx={{ borderColor: "" }} />
         <Box
           sx={{
             px: 2,
