@@ -7,7 +7,15 @@ import ButtonExcel from "../ButtonExcel";
 import ViewChartsPie from "../custom/ViewChartsPie";
 import { GET_MONTH_STATISTIC_CONTROL } from "../../graphql/queries";
 import { GetFrenchElementControl, GetMonthInFrench } from "../../utils";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Typography,
+  useTheme,
+} from "@mui/material";
 
 const getMonthAndYear = () => {
   const date = new Date();
@@ -57,45 +65,76 @@ export default function StatCar({ vehicle }) {
     );
   if (error)
     return (
-      <Box sx={{ textAlign: "center" }}>
-        <Typography align="center" color="textPrimary" variant="p">
-          {error && error.message ? error.message : "Controle inexistant"}
-        </Typography>
-        <img
-          alt="Under development"
-          src="/static/images/undraw_page_not_found_su7k.svg"
-          style={{
-            marginTop: 50,
-            display: "inline-block",
-            maxWidth: "100%",
-            width: 560,
-          }}
+      <Card>
+        <CardHeader
+          title={error && error.message ? error.message : "Controle inexistant"}
         />
-      </Box>
+        <Divider />
+        <CardContent>
+          <Box
+            sx={{
+              height: 300,
+              position: "relative",
+            }}
+          >
+            <img
+              alt="Under development"
+              src="/static/images/undraw_page_not_found_su7k.svg"
+              style={{
+                marginTop: 50,
+                display: "inline-block",
+                maxWidth: "100%",
+                width: 560,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              pt: 2,
+            }}
+          ></Box>
+        </CardContent>
+      </Card>
     );
   if (
     data.getVehicleVerificationElementsByMonth &&
     data.getVehicleVerificationElementsByMonth.length < 1
   )
     return (
-      <Box sx={{ textAlign: "center" }}>
-        <Typography align="center" color="textPrimary" variant="small">
-          Désolé ! Rien pour
-          <small> {vehicle.name.toUpperCase()}</small>
-          <br />
-          en {getMonthInFrench()}
-        </Typography>
-        <img
-          alt="Under development"
-          src="/static/images/undraw_page_not_found_su7k.svg"
-          style={{
-            marginTop: 50,
-            display: "inline-block",
-            maxWidth: "100%",
-            width: 560,
-          }}
+      <Card>
+        <CardHeader
+          title={`Désolé ! Rien pour ${vehicle.name} en ${getMonthInFrench()}`}
         />
-      </Box>
+        <Divider />
+        <CardContent>
+          <Box
+            sx={{
+              height: 300,
+              position: "relative",
+            }}
+          >
+            <img
+              alt="Under development"
+              src="/static/images/undraw_page_not_found_su7k.svg"
+              style={{
+                marginTop: 50,
+                display: "inline-block",
+                maxWidth: "100%",
+                width: 560,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              pt: 2,
+            }}
+          ></Box>
+        </CardContent>
+      </Card>
     );
   function formatDataElementControlToExport(listElementControl) {
     for (const property in listElementControl) {
