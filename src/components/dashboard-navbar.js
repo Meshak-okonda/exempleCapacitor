@@ -1,7 +1,16 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import NextLink from "next/link";
-import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Bell as BellIcon } from '../icons/bell';
@@ -11,7 +20,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import logo from "../assets/logo.png";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.navBackground.default,
   boxShadow: theme.shadows[3],
 }));
 
@@ -37,7 +46,7 @@ export const DashboardNavbar = (props) => {
           sx={{
             minHeight: 64,
             left: 0,
-            px: 2,
+            px: 3,
           }}
         >
           <IconButton
@@ -64,6 +73,9 @@ export const DashboardNavbar = (props) => {
               </Badge>
             </IconButton>
           </Tooltip> */}
+          <Typography color="white" variant="h6">
+            {user.name} {user.lastName}
+          </Typography>
           <NextLink href="/account" passHref>
             <a>
               <Avatar
