@@ -306,7 +306,7 @@ export const ResponsableListResults = ({ ...rest }) => {
                         }}
                       />
                     </TableCell>
-                    {user.upResponsable && (
+                    {user.upResponsable && (!responsable.superAdm || user.superAdm) && (
                       <TableCell>
                         <ButtonEdit
                           onClick={() => {
