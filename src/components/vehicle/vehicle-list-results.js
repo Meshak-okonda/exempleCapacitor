@@ -21,9 +21,11 @@ import {
   SvgIcon,
   Grid
 } from "@mui/material";
-import { DELETE_VEHICLE } from '../../graphql/queries';
+import { DELETE_VEHICLE, REVERSE_VEHICLE } from "../../graphql/queries";
 import { stringAvatar } from "../../utils/getStringAvatar";
-import { deleteVehicle } from "../../redux/slice/globalSlice";
+import {
+  updateVehicleInState,
+} from "../../redux/slice/globalSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Search as SearchIcon } from "../../icons/search";
 import PopUpSeeVehicle from "./PopUpSeeVehicle";
@@ -35,6 +37,7 @@ import ButtonEdit from "../ButtonEdit";
 import ToastCustom from '../ToastCustom';
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ButtonRecovery from "../ButtonRecovery";
 
 export const VehicleListResults = ({ ...rest }) => {
   const { vehicles, drivers } = useAppSelector((state) => state.globalState);
@@ -47,9 +50,11 @@ export const VehicleListResults = ({ ...rest }) => {
   const [idSelect, setIdSelect] = useState("");
   const [modalOnDelete, setModalOnDelete] = useState(false);
   const [modalUpdateOn, setModalUpdateOn] = useState(false);
+  const [modalOnRecovery, setModalOnRecovery] = useState(false);
   const [vehicleFilter, setVehicleFilter] = useState([]);
 	const [filter, setFilter] = useState(null);
   const [vehicleView, setVehicleView] = useState(vehicles);
+  const [data, setData] = useState(null);
   const [toast, setToast] = useState({
 		header: '',
 		body: '',
@@ -57,14 +62,40 @@ export const VehicleListResults = ({ ...rest }) => {
 		type: '',
 		delay: 6000,
   });
-  const [valueView, setValueView] = useState(1);
+  const [valueView, setValueView] = useState('1');
 
   const handleChangeView = (event, newValueView) => {
+    if (newValueView === "1") {
+      setVehicleView(vehicles.filter((dri) => dri.delete === false));
+    } else if (newValueView === "2") {
+      setVehicleView(vehicles.filter((dri) => dri.delete != false));
+    } else {
+      setVehicleView(vehicles);
+    }
     setValueView(newValueView);
   };
 
+  useEffect(() => {
+    if (data) {
+      if (data.updateVehicle) {
+        dispatch(updateVehicleInState(data.updateVehicle));
+        setValueView("1");
+      }
+      if (data.reverseDeleteVehicle) {
+        dispatch(updateVehicleInState(data.reverseDeleteVehicle));
+        setValueView("1");
+      }
+    }
+  }, [data, dispatch]);
+
   useEffect(()=>{
-    setVehicleView(vehicles);
+    if (valueView === "1") {
+      setVehicleView(vehicles.filter((dri) => dri.delete === false));
+    } else if (valueView === "2") {
+      setVehicleView(vehicles.filter((dri) => dri.delete != false));
+    } else {
+      setVehicleView(vehicles);
+    }
   }, [vehicles]);
 
   const handleSelectAll = (event) => {
@@ -141,9 +172,7 @@ export const VehicleListResults = ({ ...rest }) => {
   const confirmMutation = async (mutation) => {
 			try {
 				await mutation();
-				setTimeout(() => {
-					dispatch(deleteVehicle(idSelect));
-				}, 1000);
+        setModalOnDelete(false);
 			} catch (error) {
         setToast({
 					header: 'Erreur',
@@ -153,6 +182,58 @@ export const VehicleListResults = ({ ...rest }) => {
 				});
 			}
 		};
+
+    const confirmMutationRecovery = async (mutation) => {
+      try {
+        await mutation();
+        setModalOnRecovery(false);
+      } catch (error) {
+        setToast({
+          header: "Erreur",
+          body: `Erreur : ${error.message || ""}`,
+          type: "error",
+          state: true,
+        });
+      }
+    };
+
+    const handleSuperAdmSearch = (value) =>{
+      setValueView("3");
+      setFilter(value);
+      if (value.trim() === "") {
+        setVehicleView(vehicles);
+        return 0;
+      }
+      setVehicleFilter(
+        vehicles.filter((veh) => {
+          if (veh.name.toUpperCase().indexOf(value.toUpperCase()) > -1)
+            return veh;
+        })
+      );
+      setVehicleView(vehicleFilter.length < 1 ? vehicles : vehicleFilter);
+    }
+
+    const handleSearch = (value) =>{
+      setValueView("3");
+      setFilter(value);
+      if (value.trim() === "") {
+        setVehicleView(vehicles.filter((veh) => veh.delete === false));
+        return 0;
+      }
+      setVehicleFilter(
+        vehicles
+          .filter((veh) => veh.delete === false)
+          .filter((veh) => {
+            if (veh.name.toUpperCase().indexOf(value.toUpperCase()) > -1)
+              return veh;
+          })
+      );
+      setVehicleView(
+        vehicleFilter.length < 1
+          ? vehicles.filter((veh) => veh.delete === false)
+          : vehicleFilter
+      );
+    }
 
   return (
     <>
@@ -174,48 +255,37 @@ export const VehicleListResults = ({ ...rest }) => {
                       ),
                     }}
                     onChange={({ target: { value } }) => {
-                      setFilter(value);
-                      if (value.trim() === "") {
-                        setVehicleView(vehicles);
-                        return 0;
+                      if (user.superAdm) {
+                        handleSuperAdmSearch(value);
+                      } else {
+                        handleSearch(value);
                       }
-                      setVehicleFilter(
-                        vehicles.filter((veh) => {
-                          if (
-                            veh.name
-                              .toUpperCase()
-                              .indexOf(value.toUpperCase()) > -1
-                          )
-                            return veh;
-                        })
-                      );
-                      setVehicleView(
-                        vehicleFilter.length < 1 ? vehicles : vehicleFilter
-                      );
                     }}
                     placeholder="Search customer"
                     variant="outlined"
                   />
                 </Box>
               </Grid>
-              <Grid item md={6} xs={12}>
-                <ToggleButtonGroup
-                  value={valueView}
-                  exclusive
-                  onChange={handleChangeView}
-                  aria-label="text alignment"
-                >
-                  <ToggleButton value="3" aria-label="left aligned">
-                    Tout
-                  </ToggleButton>
-                  <ToggleButton value="1" aria-label="centered">
-                    Non Supplimer
-                  </ToggleButton>
-                  <ToggleButton value="2" aria-label="right aligned">
-                    Supprimer
-                  </ToggleButton>
-                </ToggleButtonGroup>
-              </Grid>
+              {user.superAdm && (
+                <Grid item md={6} xs={12}>
+                  <ToggleButtonGroup
+                    value={valueView}
+                    exclusive
+                    onChange={handleChangeView}
+                    aria-label="text alignment"
+                  >
+                    <ToggleButton value="3" aria-label="left aligned">
+                      Tout
+                    </ToggleButton>
+                    <ToggleButton value="1" aria-label="centered">
+                      Non Supplimer
+                    </ToggleButton>
+                    <ToggleButton value="2" aria-label="right aligned">
+                      Supprimer
+                    </ToggleButton>
+                  </ToggleButtonGroup>
+                </Grid>
+              )}
             </Grid>
           </CardContent>
         </Card>
@@ -235,7 +305,12 @@ export const VehicleListResults = ({ ...rest }) => {
                   <TableCell>Voir</TableCell>
 
                   {user.upVehicle && <TableCell>Maj</TableCell>}
-                  {user.delVehicle && <TableCell>Sup</TableCell>}
+                  {user.delVehicle && valueView == "1" && (
+                    <TableCell>Sup</TableCell>
+                  )}
+                  {user.delVehicle && valueView == "2" && (
+                    <TableCell>Restorer</TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -296,12 +371,22 @@ export const VehicleListResults = ({ ...rest }) => {
                         />
                       </TableCell>
                     )}
-                    {user.delVehicle && (
+                    {user.delVehicle && !vehicle.delete && valueView == "1" && (
                       <TableCell>
                         <ButtonDelete
                           onClick={() => {
                             setIdSelect(vehicle.id);
                             setModalOnDelete(true);
+                          }}
+                        />
+                      </TableCell>
+                    )}
+                    {user.delVehicle && vehicle.delete && valueView == "2" && (
+                      <TableCell>
+                        <ButtonRecovery
+                          onClick={() => {
+                            setModalOnRecovery(true);
+                            setIdSelect(vehicle.id);
                           }}
                         />
                       </TableCell>
@@ -339,8 +424,18 @@ export const VehicleListResults = ({ ...rest }) => {
           <PopUpMutation
             openModal={modalOnDelete}
             query={DELETE_VEHICLE(idSelect)}
+            setDataGet={setData}
             setModalON={setModalOnDelete}
             confirmMutation={confirmMutation}
+          />
+        )}
+        {modalOnRecovery && (
+          <PopUpMutation
+            openModal={modalOnRecovery}
+            query={REVERSE_VEHICLE(idSelect)}
+            setDataGet={setData}
+            setModalON={setModalOnRecovery}
+            confirmMutation={confirmMutationRecovery}
           />
         )}
         {toast.state && (
