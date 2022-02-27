@@ -58,7 +58,7 @@ const Login = () => {
     formik.isSubmitted = false;
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     if (dataGet) {
       const { connectionResponsable } = dataGet;
       dispatch(connexionUser(connectionResponsable));
@@ -66,12 +66,12 @@ const Login = () => {
         "user",
         JSON.stringify({ ...connectionResponsable, date: getDate() })
       );
-      localStorage.setItem("token", connectionResponsable.token);
+      await localStorage.setItem("token", connectionResponsable.token);
       setTimeout(() => {
         router.push("/dashbord");
       }, 2000);
     } else {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(await localStorage.getItem("user"));
       if (user) {
         setToast({
           header: "Felicitation",
@@ -136,7 +136,6 @@ const Login = () => {
               label="Nom d'utilisateur"
               margin="normal"
               name="name"
-              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="text"
               value={formik.values.name}
@@ -149,7 +148,6 @@ const Login = () => {
               label="Mot de pass"
               margin="normal"
               name="password"
-              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="password"
               value={formik.values.password}
