@@ -52,7 +52,7 @@ export const DashboardNavbar = (props) => {
             <MenuIcon fontSize="small" />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Contacts">
+          {/* <Tooltip title="Contacts">
             <IconButton sx={{ ml: 1 }}>
               <UsersIcon fontSize="small" />
             </IconButton>
@@ -63,7 +63,7 @@ export const DashboardNavbar = (props) => {
                 <BellIcon fontSize="small" />
               </Badge>
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
           <NextLink href="/account" passHref>
             <a>
               <Avatar
@@ -72,9 +72,7 @@ export const DashboardNavbar = (props) => {
                   width: 40,
                   ml: 1,
                 }}
-                src={
-                  user.image || "/static/images/avatars/avatar_1.png"
-                }
+                src={user.image || logo.src}
               >
                 <UserCircleIcon fontSize="small" />
               </Avatar>
@@ -87,5 +85,5 @@ export const DashboardNavbar = (props) => {
 };
 
 DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func
+  onSidebarOpen: PropTypes.func,
 };
