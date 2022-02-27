@@ -22,6 +22,59 @@ export const GET_RESPONSABLE = gql`
   }
 `;
 
+export const REVERSE_VEHICLE = (id)=>{
+	return gql`
+    mutation {
+      reverseDeleteVehicle(id: "${id}") {
+        idTypeVehicle
+        id
+        idDriver
+        name
+        model
+        serie
+        gpsData
+        image
+        color
+        startYear
+        registrationNumber
+        power
+        delete
+        createdAt
+      }
+    }
+  `;
+}
+
+export const REVERSE_RESPONSABLE = (id)=>{
+	return gql`
+    mutation {
+      reverseDeleteResponsable(id: "${id}") {
+        name
+        id
+        lastName
+        password
+        email
+        phone
+        image
+        age
+        sex
+        superAdm
+        addVehicle
+        upVehicle
+        delVehicle
+        addDriver
+        upDriver
+        delDriver
+        addResponsable
+        upResponsable
+        delResponsable
+        delete
+        createdAt
+      }
+    }
+  `;
+}
+
 export const REVERSE_DRIVER = (id) => {
 	return gql`
     mutation  {
