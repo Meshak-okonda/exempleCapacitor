@@ -1,0 +1,18 @@
+.borderError {
+	border: 1px solid red;
+
+	animation: error 0.5s infinite;
+	animation-fill-mode: forwards;
+
+	@keyframes error {
+		0% {
+			border-color: red;
+		}
+		50% {
+			border-color: transparent;
+		}
+		100% {
+			border-color: red;
+		}
+	}
+}
