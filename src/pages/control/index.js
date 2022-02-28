@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Head from "next/head";
 import FormAddControl from "../../components/control/FormAddControl";
-import ModifyControl from "../../components/control/ModifyControl";
-import ModifyFormControl from "../../components/control/ModifyFormControl";
 import { useAppSelector } from "../../hooks";
 import { DashboardLayout } from "../../components/dashboard-layout";
 import {

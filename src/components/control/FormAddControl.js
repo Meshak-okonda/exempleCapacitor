@@ -1430,7 +1430,6 @@ export default function FormAddControl({ idVehicle, dateControl }) {
 																field.onChange({ state: value });
 															}
 														}}
-														style={{width: '100%'}}
 														options={test}
 														style={{width: '100%'}}
 														placeholder={GetFrenchElementControl(field.name)}

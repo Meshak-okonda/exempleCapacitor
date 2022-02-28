@@ -14,7 +14,7 @@ export default function PopOver({ title, body, buttonPlaceHolder, image }) {
           {image && image.length ? (
             <div className="d-flex">
               {image.map((img, key) => {
-                return <ImageModal img={img} />;
+                return <ImageModal key={key} img={img} />;
               })}
             </div>
           ) : (

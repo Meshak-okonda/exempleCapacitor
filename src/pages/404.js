@@ -39,7 +39,7 @@ const NotFound = () => (
             color="textPrimary"
             variant="subtitle2"
           >
-            La page demander n'existe pas ou vous n'y etès pas autorisé.
+            Page non autorisé
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <img

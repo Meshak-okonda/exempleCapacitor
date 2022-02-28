@@ -137,12 +137,14 @@ export const AccountProfileDetails = (props) => {
                       )}
                       {errors.name && errors.name.type === "maxLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (20 caractères)
+                          La taille minimal n&apos;est pas respecter (20
+                          caractères)
                         </small>
                       )}
                       {errors.name && errors.name.type === "minLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (3 caractères)
+                          La taille minimal n&apos;est pas respecter (3
+                          caractères)
                         </small>
                       )}
                       {errors.name && errors.name.type === "pattern" && (
@@ -188,14 +190,14 @@ export const AccountProfileDetails = (props) => {
                       {errors.lastName &&
                         errors.lastName.type === "maxLength" && (
                           <small className="alert-danger p-1">
-                            La taille minimal n'est pas respecter (20
+                            La taille minimal n&apos;est pas respecter (20
                             caractères)
                           </small>
                         )}
                       {errors.lastName &&
                         errors.lastName.type === "minLength" && (
                           <small className="alert-danger p-1">
-                            La taille minimal n'est pas respecter (3 caractères)
+                            La taille minimal n&apos;est pas respecter (3 caractères)
                           </small>
                         )}
                       {errors.lastName &&
@@ -235,12 +237,12 @@ export const AccountProfileDetails = (props) => {
                       />
                       {errors.email && errors.email.type === "maxLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (20 caractères)
+                          La taille minimal n&apos;est pas respecter (20 caractères)
                         </small>
                       )}
                       {errors.email && errors.email.type === "minLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (3 caractères)
+                          La taille minimal n&apos;est pas respecter (3 caractères)
                         </small>
                       )}
                       {errors.email && errors.email.type === "pattern" && (
@@ -278,12 +280,12 @@ export const AccountProfileDetails = (props) => {
                       />
                       {errors.phone && errors.phone.type === "maxLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (50 caractères)
+                          La taille minimal n&apos;est pas respecter (50 caractères)
                         </small>
                       )}
                       {errors.phone && errors.phone.type === "minLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (8 caractères)
+                          La taille minimal n&apos;est pas respecter (8 caractères)
                         </small>
                       )}
                       {errors.phone && errors.phone.type === "pattern" && (
@@ -321,12 +323,12 @@ export const AccountProfileDetails = (props) => {
                         }}
                       >
                         {GetAges().map(({ value, label }) => (
-                          <MenuItem value={value}>{label}</MenuItem>
+                          <MenuItem value={value}key={label}>{label}</MenuItem>
                         ))}
                       </Select>
                       {errors.age && (
                         <small className="alert-danger p-1">
-                          L'age est requis !
+                          L&apos;age est requis !
                         </small>
                       )}
                     </>
@@ -360,7 +362,7 @@ export const AccountProfileDetails = (props) => {
                         }}
                       >
                         {GetSex().map(({ value, label }) => (
-                          <MenuItem value={value}>{label}</MenuItem>
+                          <MenuItem value={value} key={label}>{label}</MenuItem>
                         ))}
                       </Select>
                       {errors.sex && (
@@ -402,12 +404,12 @@ export const AccountProfileDetails = (props) => {
                       )}
                       {errors.password && errors.password.type === "maxLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (50 caractères)
+                          La taille minimal n&apos;est pas respecter (50 caractères)
                         </small>
                       )}
                       {errors.password && errors.password.type === "minLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n'est pas respecter (8 caractères)
+                          La taille minimal n&apos;est pas respecter (8 caractères)
                         </small>
                       )}
                     </>

@@ -32,18 +32,6 @@ export default function ToastCustom({
             variant="filled"
             severity={type}
             style={{ zIndex: 15004 }}
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                style={{ zIndex: 15005 }}
-                onClick={handleClose}
-                style={{ cursor: "pointer" }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
             sx={{ mb: 2 }}
           >
             {!awaitView ? body : <Spinner as="span"

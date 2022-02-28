@@ -91,84 +91,88 @@ export default function PopUpAddElementsForControl({
 	}
 
 	return (
-		<>
-		<BootstrapDialog
+    <>
+      <BootstrapDialog
         aria-labelledby="customized-dialog-title"
         fullWidth={true}
         maxWidth="sm"
         open={openModal}
-		disableEscapeKeyDown={true}
+        disableEscapeKeyDown={true}
       >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-        >
+        <BootstrapDialogTitle id="customized-dialog-title">
           Description de {GetFrenchElementControl(nameField)}
         </BootstrapDialogTitle>
-          <DialogContent dividers>
-						<div className='p-field p-col-12 p-md-12'>
-							<label htmlFor='comment'>Commentaire</label>
-							<br />
-							<InputTextarea
-								id='comment'
-								type='text'
-								value={dataControl.comment}
-								rows={5}
-								cols={30}
-								onChange={({ target: { value } }) =>
-									setDataControl({ ...dataControl, comment: value })
-								}
-							/>
-							<br />
-							{!dataControl.comment && (
-								<small className='alert-danger p-1'>
-									Le commentaire est requis ! (min: 3 caractères, max: 150 caractères)
-								</small>
-							)}
-						</div>
-						<div className='p-field p-col-12'>
-							<Form.Group controlId='formFileSm' className='mb-3'>
-								<label htmlFor='address'>Photo de l'element !</label>
-								<Form.Control type='file' size='md' onChange={chooseImage} />
-							</Form.Group>
-						</div>
-						<div className='p-field p-col-12 d-flex align-content-center'>
-							{dataControl.image &&
-								dataControl.image.length > 0 &&
-								dataControl.image.map((image, key) => {
-									return (
-										<div className='m-1' key={key}>
-											<Image
-												src={image}
-												template='Preview Content'
-												alt='Image Text'
-												width='60'
-												height='60'
-											/>
-											<i
-												className='bi bi-trash-fill'
-												onClick={() =>
-													setDataControl({
-														...dataControl,
-														image: dataControl.image.filter(
-															(img, id) => id !== key
-														),
-													})
-												}></i>
-										</div>
-									);
-								})}
-						</div>
-			</DialogContent>
-          <DialogActions>
-			  {spiner ? (
-					<Spinner animation='border' variant='warning' />
-				) : (
-					<ButtonSubmit onClick={()=>validateData()} autoFocus type="submit" />
-				)}
-          </DialogActions>
+        <DialogContent dividers>
+          <div className="p-field p-col-12 p-md-12">
+            <label htmlFor="comment">Commentaire</label>
+            <br />
+            <InputTextarea
+              id="comment"
+              type="text"
+              value={dataControl.comment}
+              rows={5}
+              cols={30}
+              onChange={({ target: { value } }) =>
+                setDataControl({ ...dataControl, comment: value })
+              }
+            />
+            <br />
+            {!dataControl.comment && (
+              <small className="alert-danger p-1">
+                Le commentaire est requis ! (min: 3 caractères, max: 150
+                caractères)
+              </small>
+            )}
+          </div>
+          <div className="p-field p-col-12">
+            <Form.Group controlId="formFileSm" className="mb-3">
+              <label htmlFor="address">Photo de l&apos;element !</label>
+              <Form.Control type="file" size="md" onChange={chooseImage} />
+            </Form.Group>
+          </div>
+          <div className="p-field p-col-12 d-flex align-content-center">
+            {dataControl.image &&
+              dataControl.image.length > 0 &&
+              dataControl.image.map((image, key) => {
+                return (
+                  <div className="m-1" key={key}>
+                    <Image
+                      src={image}
+                      template="Preview Content"
+                      alt="Image Text"
+                      width="60"
+                      height="60"
+                    />
+                    <i
+                      className="bi bi-trash-fill"
+                      onClick={() =>
+                        setDataControl({
+                          ...dataControl,
+                          image: dataControl.image.filter(
+                            (img, id) => id !== key
+                          ),
+                        })
+                      }
+                    ></i>
+                  </div>
+                );
+              })}
+          </div>
+        </DialogContent>
+        <DialogActions>
+          {spiner ? (
+            <Spinner animation="border" variant="warning" />
+          ) : (
+            <ButtonSubmit
+              onClick={() => validateData()}
+              autoFocus
+              type="submit"
+            />
+          )}
+        </DialogActions>
       </BootstrapDialog>
-		</>
-	);
+    </>
+  );
 }
 
 
