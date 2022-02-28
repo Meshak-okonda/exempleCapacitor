@@ -33,7 +33,7 @@
     "history": "^5.0.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.23",
-    "next": "^12.0.3-canary.7",
+    "next": "^12.0.7",
     "next-pwa": "^5.4.4",
     "nprogress": "^0.2.0",
     "primeflex": "^3.1.3",

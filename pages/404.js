@@ -7,7 +7,7 @@ const NotFound = () => (
   <>
     <Head>
       <title>
-        404 | Material Kit
+        404 | Fleet Management Soft 
       </title>
     </Head>
     <Box
