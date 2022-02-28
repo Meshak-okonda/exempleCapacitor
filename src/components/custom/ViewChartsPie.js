@@ -1,8 +1,6 @@
 import { useSelector } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
 import React from "react";
-// import dynamic from "next/dynamic";
-// const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 import {
   Box,
   Card,

@@ -25,11 +25,12 @@ export const DashboardLayout = (props) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(async () => {
+    const user = JSON.parse(await localStorage.getItem("user"));
     if (user && user.date === getDate()) {
       dispatch(connexionUser(user));
     } else {
+      await localStorage.removeItem("user");
       dispatch(connexionClear());
       router.push("/404");
     }

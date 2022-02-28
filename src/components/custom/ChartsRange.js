@@ -1,14 +1,33 @@
-import { Chart } from 'primereact/chart';
-import React from 'react';
-import ButtonSaveToExcel from './ButtonSaveToExcel';
-import ButtonSaveToPdf from './ButtonSaveToPdf';
+import React, {useState} from 'react';
+import ButtonPdf from "../ButtonPdf";
+import ButtonExcel from "../ButtonExcel";
 import ViewChartsSegement from './ViewChartsSegement';
-import { useSelector } from 'react-redux';
-import { GetFrenchElementControl } from '../hooks';
+import { useAppSelector } from '../../hooks';
+import { GetFrenchElementControl } from '../../utils';
 import PopOver from './PopOver';
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Typography,
+  Grid,
+} from "@mui/material";
+import { Button } from "@mui/material";
+import {AiFillEye} from 'react-icons/ai';
+import ButtonSubmit from "../ButtonSubmit";
+import PropTypes from "prop-types";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function ChartsRange({ dataCharts }) {
-	const { vehicles, drivers } = useSelector((state) => state.globalState);
+	const { vehicles, drivers } = useAppSelector((state) => state.globalState);
 	let dataFormat = {};
 	let dataStat = [];
 	let dataRecupSimple = [];
@@ -152,32 +171,19 @@ export default function ChartsRange({ dataCharts }) {
 		formatDataExport(listDate, dataFormat, dataStat);
 	}
 	return (
-		<div className='p-col-12'>
-			<div className='p-col-12 p-d-flex p-fluid p-formgrid p-grid justify-content-center'>
-				<div className='p-sm-12 p-md-12 p-lg-9 p-col-12'>
-					<div className='p-sm-12 p-md-12 p-lg-12'>
+		<Card>
+			<CardContent>
+			<Grid className='p-col-12 p-d-flex p-fluid p-formgrid p-grid justify-content-center'>
+				<Grid container spacing={3}>
+					<Grid item lg={8} sm={12} xl={8} xs={8}>
 						<ViewChartsSegement
 							data={dataStat.sort(compare)}
 							name='Statistique général'
 						/>
-					</div>
-					<div className='p-col-12'>
-						<ButtonSaveToPdf
-							title='Exporter PDF'
-							formData={exportColumns}
-							data={dataToExport}
-							nameFile={`Statistique du véhicule (${vehicleName})`}
-						/>
-						<ButtonSaveToExcel
-							title='Exporter PDF'
-							data={dataToExport}
-							nameFile={`Statistique du véhicule (${vehicleName})`}
-						/>
-					</div>
-				</div>
-				<div className='p-sm-12 p-md-6 p-lg-3'>
-					{dataRecupSimple &&
-						dataRecupSimple.map(({ name, data }) => {
+					</Grid>
+					<Grid item lg={4} sm={12} xl={4} xs={4}>
+						{dataRecupSimple &&
+						dataRecupSimple?.map(({ name, data }) => {
 							return (
 								<div className='p-col-12 mt-3 mb-3 text-left' key={name}>
 									<h3>
@@ -189,15 +195,32 @@ export default function ChartsRange({ dataCharts }) {
 								</div>
 							);
 						})}
-				</div>
-			</div>
+						<ButtonPdf
+							title='Exporter PDF'
+							formData={exportColumns}
+							data={dataToExport}
+							nameFile={`Statistique du véhicule (${vehicleName})`}
+						/>
+						<ButtonExcel
+							title='Exporter PDF'
+							data={dataToExport}
+							nameFile={`Statistique du véhicule (${vehicleName})`}
+						/>
+					</Grid>
+				</Grid>
+			</Grid>
+			<br />
 			<hr />
-			<div className='p-d-flex p-fluid p-formgrid p-grid p-col-12 justify-content-between'>
-				{Object.keys(dataFormat).map((data, key) => {
+			<br />
+			<Grid container sx={{
+							justifyContent: 'space-between'
+						}} spacing={3}>
+				{Object.keys(dataFormat)?.map((data, key) => {
 					return (
-						<div
-							className='p-sm-12 p-md-6 p-lg-6 p-1 mt-1 mb-1 chart-shadow'
-							key={key}>
+						<Grid item sx={{
+							justifyContent: 'center'
+						}} lg='auto' sm={4} xl={1} xs={1}>
+							<ButtonDialog key={key} name={GetFrenchElementControl(data)}>
 							<ViewChartsSegement
 								data={dataFormat[data].sort(compare)}
 								name={
@@ -208,7 +231,7 @@ export default function ChartsRange({ dataCharts }) {
 							/>
 							<div className='p-d-flex p-fluid p-formgrid p-grid mt-2'>
 								{dataFormat[data]
-									.sort(compare)
+									.sort(compare)?
 									.map(({ comment, image, name }, key) => {
 										return (
 											(comment || image) && (
@@ -224,10 +247,90 @@ export default function ChartsRange({ dataCharts }) {
 										);
 									})}
 							</div>
-						</div>
+							</ButtonDialog>
+						</Grid>
 					);
 				})}
-			</div>
-		</div>
+			</Grid>
+		</CardContent>
+		</Card>
 	);
 }
+
+
+
+const ButtonDialog = ({children, name})=>{
+	const [open, setOpen]= useState(false);
+	const handleClose = () =>setOpen(false);
+	return (<>
+			<Button color="primary"
+            variant="contained" sx={{
+				pd: 10,
+				display: "flex"
+			}} startIcon={<AiFillEye fontSize="small" />} onClick={()=> setOpen(!open)}>
+				{name}
+			</Button>
+			{open && <BootstrapDialog
+			onClose={handleClose}
+			aria-labelledby="customized-dialog-title"
+			fullWidth={true}
+			maxWidth="md"
+			open={open}
+			>
+			<BootstrapDialogTitle
+			id="customized-dialog-title"
+			onClose={handleClose}
+			>
+			{name}
+			</BootstrapDialogTitle>
+			<DialogContent dividers>
+			<div>
+				{children}
+			</div>
+			</DialogContent>
+			<DialogActions>
+				<Button autoFocus onClick={handleClose} >
+					Continuer
+				</Button>
+			</DialogActions>
+			</BootstrapDialog>}
+			</>);
+}	
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};

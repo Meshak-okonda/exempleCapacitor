@@ -1,6 +1,7 @@
-import Chart from 'react-apexcharts';
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useSelector } from 'react-redux';
-import { GetMonthInFrench } from '../hooks';
+import { GetMonthInFrench } from '../../utils';
 import React from 'react';
 
 export default function ViewChartsYear({ data, name, global }) {

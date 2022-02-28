@@ -25,49 +25,14 @@ import { FcStatistics } from "react-icons/fc";
 
 const items = [
   {
-    href: "/dashbord",
-    icon: <RiDashboardFill fontSize="small" />,
-    title: "Dashboard",
-  },
-  {
-    href: "/vehicle",
-    icon: <AiFillCar fontSize="small" />,
-    title: "Vehicule",
-  },
-  {
     href: "/control",
     icon: <AiFillControl fontSize="small" />,
     title: "Controle",
   },
   {
-    href: "/statistic",
-    icon: <FcStatistics fontSize="small" />,
-    title: "Statistique",
-  },
-  {
-    href: "/driver",
-    icon: <GiSteeringWheel fontSize="small" />,
-    title: "Chauffeur",
-  },
-  {
-    href: "/responsable",
-    icon: <RiAdminFill fontSize="small" />,
-    title: "Responsable",
-  },
-  {
     href: "/account",
     icon: <UserIcon fontSize="small" />,
     title: "Profile",
-  },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
-  },
-  {
-    href: "/404",
-    icon: <XCircleIcon fontSize="small" />,
-    title: "Error",
   },
 ];
 
@@ -95,8 +60,7 @@ export const DashboardSidebar = (props) => {
   );
   const deconnexion = async () => {
     await localStorage.removeItem("user");
-    await localStorage.removeItem("token");
-    dispatch(connexionClear);
+    dispatch(connexionClear(''));
   };
 
   const content = (

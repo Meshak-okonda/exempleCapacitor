@@ -1,17 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { DELETE_CONTROL } from '../graphql/queries';
-import { GetFrenchElementControl } from '../hooks';
-import ButtonSaveToExcel from './ButtonSaveToExcel';
-import ButtonSaveToPdf from './ButtonSaveToPdf';
+import { useAppSelector } from '../../hooks';
+import { DELETE_CONTROL } from '../../graphql/queries';
+import { GetFrenchElementControl } from '../../utils';
+import ButtonPdf from "../ButtonPdf";
+import ButtonExcel from "../ButtonExcel";
 import ButtonTrash from './ButtonTrash';
 import PopUpMutation from './PopUpMutation';
 import PopOver from './PopOver';
 import ViewChart from './ViewChart';
 import { Toast } from 'primereact/toast';
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Container,
+  Grid,
+} from "@mui/material";
 
 export default function ChartsDay({ dataCharts }) {
-	const { vehicles, drivers } = useSelector((state) => state.globalState);
+	const { vehicles, drivers } = useAppSelector((state) => state.globalState);
 	const [modalDelete, setModalDelete] = useState(false);
 	const toast = useRef(null);
 	let dataToExport = [];
@@ -123,9 +131,10 @@ export default function ChartsDay({ dataCharts }) {
 	return (
 		<>
 			{dataRecup && (
-				<div className='p-d-flex p-fluid p-formgrid p-grid'>
-					<div className='p-col-12 p-d-flex p-fluid p-formgrid p-grid justify-content-center'>
-						<div className='p-sm-12 p-md-12 p-lg-8'>
+				<Card>
+					<CardContent>
+					<Grid container spacing={3}>
+						<Grid item lg={8} sm={12} xl={8} xs={8}>
 							<ViewChart
 								good={dataRecupState.good}
 								missing={dataRecupState.missing}
@@ -133,10 +142,10 @@ export default function ChartsDay({ dataCharts }) {
 								name='Statistique général'
 								descript={true}
 							/>
-						</div>
-						<div className='p-sm-12 p-md-12 p-lg-4'>
+						</Grid>
+						<Grid item lg={4} sm={12} xl={4} xs={4}>
 							{dataRecupSimple &&
-								dataRecupSimple.map(({ name, data }) => {
+								dataRecupSimple?.map(({ name, data }) => {
 									return (
 										<div className='p-col-12 mt-3 mb-3 text-left' key={name}>
 											<h3>
@@ -148,56 +157,57 @@ export default function ChartsDay({ dataCharts }) {
 										</div>
 									);
 								})}
-
 							<div className='align-self-end mr-1'>
 								{idControl && (
 									<div className='p-col-12 d-flex justify-content-center'>
 										<ButtonTrash
-											style={{
-												display: 'flex',
-												justifyContent: 'center',
-												width: '30%',
-											}}
 											onClick={() => setModalDelete(true)}
 										/>
 									</div>
 								)}
-								<ButtonSaveToPdf
+								<ButtonPdf
 									title='Exporter PDF'
 									formData={exportColumns}
 									data={dataToExport}
 									nameFile='Statistique du véhicule'
 								/>
-								<ButtonSaveToExcel
+								<ButtonExcel
 									title='Exporter PDF'
 									data={dataToExport}
 									nameFile='Statistique du véhicule'
 								/>
 							</div>
-						</div>
-					</div>
+						</Grid>
+					</Grid>
 					<br />
-					<div className='p-d-flex p-fluid p-formgrid p-grid'>
+					<hr />
+					<br />
+					<Grid container sx={{
+							justifyContent: 'space-between'
+						}}  spacing={3}>
 						{dataRecup &&
-							dataRecup.map(
+							dataRecup?.map(
 								(
 									{ name, good, missing, damaged, value, comment, image },
 									key
 								) => {
 									return (
-										<div className='p-lg-2 p-md-4 p-sm-6' key={key}>
+										<Grid item sx={{
+							justifyContent: 'space-between'
+						}} lg='auto' sm={4} xl={1} xs={1}>
 											<PopOver
 												buttonPlaceHolder={`${GetFrenchElementControl(name)}`}
 												title={good ? 'Bonne' : missing ? 'Manque' : 'Abimé'}
 												body={comment}
 												image={image ? image : ''}
 											/>
-										</div>
+										</Grid>
 									);
 								}
 							)}
-					</div>
-				</div>
+					</Grid>
+					</CardContent>
+				</Card>
 			)}
 			{modalDelete && (
 				<PopUpMutation

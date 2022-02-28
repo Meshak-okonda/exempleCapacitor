@@ -14,18 +14,10 @@ import { setRefresh } from "../../redux/slice/refreshSlice";
 import ToastCustom from "../ToastCustom";
 
 function Refresh_Redux_State({
-  getDrivers,
-  getResponsables,
   getVehicles,
-  getTypeVehicles,
-  getVehicleHistories,
 }) {
   const dispatch = useAppDispatch();
   dispatch(setVehicles(getVehicles));
-  dispatch(setResponsables(getResponsables));
-  dispatch(setTypesVehicles(getTypeVehicles));
-  dispatch(setDrivers(getDrivers));
-  dispatch(setVehiclesHistory(getVehicleHistories));
   setTimeout(() => {
     dispatch(setRefresh(false));
   }, 2000);

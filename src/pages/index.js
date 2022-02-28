@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import PopUpQuery from "../components/PopUpQuery";
-import { CONNECTION_RESPONSABLE } from "../graphql/queries";
+import { CONNECTION_DRIVER } from "../graphql/queries";
 import {useAppDispatch} from "../hooks";
 import { connexionUser } from "../redux/slice/userSlice";
 import {getDate} from "../utils/index";
@@ -60,19 +60,18 @@ const Login = () => {
 
   useEffect(async () => {
     if (dataGet) {
-      const { connectionResponsable } = dataGet;
-      dispatch(connexionUser(connectionResponsable));
+      const { connectionDriver } = dataGet;
+      dispatch(connexionUser(connectionDriver));
       localStorage.setItem(
         "user",
-        JSON.stringify({ ...connectionResponsable, date: getDate() })
+        JSON.stringify({ ...connectionDriver, date: getDate() })
       );
-      await localStorage.setItem("token", connectionResponsable.token);
       setTimeout(() => {
         router.push("/dashbord");
       }, 2000);
     } else {
       const user = JSON.parse(await localStorage.getItem("user"));
-      if (user) {
+      if (user && user.name && user.date === getDate()) {
         setToast({
           header: "Felicitation",
           body: `Bienvenue monsieur ${user.name}`,
@@ -81,8 +80,11 @@ const Login = () => {
         });
         setTimeout(() => {
           dispatch(connexionUser(user));
-          router.push("/dashbord");
+          router.push("/control");
         }, 3500);
+      }
+      else {
+        await localStorage.removeItem('user');
       }
     }
   }, [dataGet, router]);
@@ -92,13 +94,13 @@ const Login = () => {
       {modalON && (
         <PopUpQuery
           openModal={modalON}
-          query={CONNECTION_RESPONSABLE(formik.values.name, formik.values.password)}
+          query={CONNECTION_DRIVER(formik.values.name, formik.values.password)}
           setDataGet={setDataGet}
           setModalON={setModalON}
         />
       )}
       <Head>
-        <title>Login | Material Kit</title>
+        <title>Page connection | Fleet Management Soft</title>
       </Head>
       <Box
         component="main"

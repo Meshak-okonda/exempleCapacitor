@@ -1,129 +1,25 @@
 import { gql } from '@apollo/client';
 
-export const GET_RESPONSABLE = gql`
-  query {
-    getResponsables {
+
+export const CONNECTION_DRIVER = (name, password) => {
+  return gql`
+    query{
+  connectionDriver (name: "${name}", password: "${password}") {
       id
       name
       lastName
       password
-      superAdm
-      addVehicle
-      upVehicle
-      delVehicle
-      addDriver
-      upDriver
-      delDriver
-      addResponsable
-      upResponsable
-      delResponsable
-      delete
-    }
+      licenseValidity
+      email
+      phone
+      image
+      age
+      sex
+      createdAt
+    delete
   }
-`;
-
-export const REVERSE_VEHICLE = (id)=>{
-	return gql`
-    mutation {
-      reverseDeleteVehicle(id: "${id}") {
-        idTypeVehicle
-        id
-        idDriver
-        name
-        model
-        serie
-        gpsData
-        image
-        color
-        startYear
-        registrationNumber
-        power
-        delete
-        createdAt
-      }
-    }
-  `;
-}
-
-export const REVERSE_RESPONSABLE = (id)=>{
-	return gql`
-    mutation {
-      reverseDeleteResponsable(id: "${id}") {
-        name
-        id
-        lastName
-        password
-        email
-        phone
-        image
-        age
-        sex
-        superAdm
-        addVehicle
-        upVehicle
-        delVehicle
-        addDriver
-        upDriver
-        delDriver
-        addResponsable
-        upResponsable
-        delResponsable
-        delete
-        createdAt
-      }
-    }
-  `;
-}
-
-export const REVERSE_DRIVER = (id) => {
-	return gql`
-    mutation  {
-      reverseDeleteDriver(id: "${id}") {
-        id
-        lastName
-        password
-        licenseValidity
-        email
-        name
-        phone
-        image
-        age
-        sex
-        createdAt
-        delete
-      }
-    }
-  `;
-}
-
-export const GET_ONE_RESPONSABLE = (id) => {
-	return gql`
-		query {
-			getResponsable(id: "${id}") {
-				name
-				email
-				password
-				phone
-				image
-				age
-				sex
-				lastName
-				superAdm
-				addVehicle
-				upVehicle
-				addDriver
-				upDriver
-				delete
-			}
-		}
-	`;
+}`;
 };
-
-export const REINITIALISATION_ACCOUNT = gql`
-	mutation RecoveryAccount($name: String!, $code: String!) {
-		recoveryAccount(name: $name, code: $code)
-	}
-`;
 
 export const GET_VEHICLES = gql`
   query GetVehicles {
@@ -153,45 +49,6 @@ export const GET_VEHICLES_NAME_BY_ID = (id) => gql`
 
 export const REFRESH_ALL_DATA = gql`
   query {
-    getResponsables {
-      id
-      name
-      lastName
-      email
-      phone
-      image
-      age
-      sex
-      delete
-      superAdm
-      addVehicle
-      upVehicle
-      delVehicle
-
-      addDriver
-      upDriver
-      delDriver
-
-      addResponsable
-      upResponsable
-      delResponsable
-      createdAt
-      delete
-    }
-    getDrivers {
-      id
-      name
-      lastName
-      password
-      licenseValidity
-      email
-      phone
-      image
-      age
-      sex
-      createdAt
-      delete
-    }
     getVehicles {
       id
       idDriver
@@ -206,52 +63,9 @@ export const REFRESH_ALL_DATA = gql`
       power
       delete
     }
-    getTypeVehicles {
-      id
-      name
-      description
-      startYear
-    }
-    getVehicleHistories {
-      idDriver
-      idVehicle
-      createdAt
-    }
   }
 `;
 
-export const CONNECTION_RESPONSABLE = (name, password) => {
-	return gql`
-    query{
-      connectionResponsable(name: "${name}", password: "${password}") {
-        id
-        name
-        lastName
-        password
-        email
-        phone
-        image
-		token
-        age
-		superAdm
-		addVehicle
-		upVehicle
-		delVehicle
-
-		addDriver
-		upDriver
-		delDriver
-
-		addResponsable
-		upResponsable
-		delResponsable
-        sex
-        createdAt
-		delete
-    }
-}
-  `;
-};
 
 export const VERIFICATION_VEHICLE_ADD = gql`
 	subscription VerificationVehicleAdded {
@@ -265,106 +79,6 @@ export const VERIFICATION_VEHICLE_ADD = gql`
 		}
 	}
 `;
-
-export const DELETE_VEHICLE = (id) => {
-	return gql`
-		mutation {
-			deleteVehicle(id: "${id}") {
-				id
-				idDriver
-				name
-				model
-				serie
-				gpsData
-				image
-				color
-				startYear
-				registrationNumber
-				power
-				createdAt
-				delete
-			}
-		}
-	`;
-};
-
-export const CREATE_VEHICLE = gql`
-  mutation createVehicle($vehicle: VehicleInput) {
-    createVehicle(vehicle: $vehicle) {
-      id
-      idDriver
-      name
-      serie
-      model
-      gpsData
-      image
-      color
-      startYear
-      registrationNumber
-      power
-      createdAt
-      delete
-    }
-  }
-`;
-
-export const UPDATE_VEHICLE = gql`
-  mutation UpdateVehicle($updateVehicleId: String!, $vehicle: VehicleInput) {
-    updateVehicle(id: $updateVehicleId, vehicle: $vehicle) {
-      id
-      idDriver
-      name
-      model
-      serie
-      image
-      color
-      startYear
-      registrationNumber
-      power
-      createdAt
-      delete
-    }
-  }
-`;
-
-export const CREATE_TYPE_VEHICLE = gql`
-	mutation CreateTypeVehicle($typeVehicle: TypeVehicleInput) {
-		createTypeVehicle(typeVehicle: $typeVehicle) {
-			id
-			name
-			description
-			startYear
-		}
-	}
-`;
-
-export const DELETE_TYPE_VEHICLE = (id) => {
-	return gql`
-		mutation {
-			deleteTypeVehicle(id: "${id}") {
-				id
-				name
-				description
-				startYear
-			}
-		}
-	`;
-};
-
-export const UPDATE_TYPE_VEHICLE = gql`
-	mutation UpdateTypeVehicle(
-		$updateTypeVehicleId: String!
-		$typeVehicle: TypeVehicleInput
-	) {
-		updateTypeVehicle(id: $updateTypeVehicleId, typeVehicle: $typeVehicle) {
-			id
-			name
-			description
-			startYear
-		}
-	}
-`;
-
 export const CREATE_DRIVER = gql`
 	mutation CreateDriver($driver: DriverInput) {
 		createDriver(driver: $driver) {

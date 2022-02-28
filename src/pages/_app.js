@@ -11,7 +11,11 @@ import { store } from "../redux/store";
 import { ApolloProvider } from "@apollo/client";
 import clientQraphQL from "../graphql/cli";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "primeflex/primeflex.css";
+import 'primereact/resources/primereact.min.css';
+import 'primeflex/primeflex.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primeicons/primeicons.css';
+import '../style/global.scss';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,7 +29,7 @@ const App = (props) => {
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
           <Head>
-            <title>Material Kit Pro</title>
+            <title>Fleet Management Soft</title>
             <meta
               name="viewport"
               content="initial-scale=1, width=device-width"

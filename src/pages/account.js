@@ -11,7 +11,7 @@ const Account = () => {
   <>
     <Head>
       <title>
-        Account | Fleet Management Soft
+        Gestion de Compte | Fleet Management Soft
       </title>
     </Head>
     <Box
@@ -26,7 +26,7 @@ const Account = () => {
           sx={{ mb: 3 }}
           variant="h4"
         >
-          Account
+          Compte
         </Typography>
         <Grid
           container

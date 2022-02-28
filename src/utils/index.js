@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../hooks';
 
 export function DriverToExport() {
-	const { drivers, vehicles } = useSelector((state) => state.globalState);
+	const { drivers, vehicles } = useAppSelector((state) => state.globalState);
 	const exportColumns = [
 		{ title: 'Nom', dataKey: 'name' },
 		{ title: 'Post Nom', dataKey: 'lastName' },
@@ -35,7 +35,7 @@ export function DriverToExport() {
 }
 
 export function GetDrivers() {
-	const { drivers } = useSelector((state) => state.globalState);
+	const { drivers } = useAppSelector((state) => state.globalState);
 	const refactorDrivers = [];
 	for (let i = 0; i < drivers.length; i++) {
 		refactorDrivers.push({
@@ -47,7 +47,7 @@ export function GetDrivers() {
 }
 
 export function GetTypeVehicle() {
-	const { typesVehicles } = useSelector((state) => state.globalState);
+	const { typesVehicles } = useAppSelector((state) => state.globalState);
 	const refactorTypesVehicles = [];
 	for (let i = 0; i < typesVehicles.length; i++) {
 		refactorTypesVehicles.push({
@@ -59,7 +59,7 @@ export function GetTypeVehicle() {
 }
 
 export function GetVehicles() {
-	const { vehicles } = useSelector((state) => state.globalState);
+	const { vehicles } = useAppSelector((state) => state.globalState);
 	const refactorVehicles = [];
 	for (let i = 0; i < vehicles.length; i++) {
 		refactorVehicles.push({
@@ -71,7 +71,7 @@ export function GetVehicles() {
 }
 
 export function GetResponsables() {
-	const { responsables } = useSelector((state) => state.globalState);
+	const { responsables } = useAppSelector((state) => state.globalState);
 	const refactorResponsables = [];
 	for (let i = 0; i < responsables.length; i++) {
 		refactorResponsables.push({
@@ -83,7 +83,7 @@ export function GetResponsables() {
 }
 
 export function GetVehicleWithIdMap() {
-	const { vehicles } = useSelector((state) => state.globalState);
+	const { vehicles } = useAppSelector((state) => state.globalState);
 	const refactorVehicles = [];
 	for (let i = 0; i < vehicles.length; i++) {
 		refactorVehicles.push({
