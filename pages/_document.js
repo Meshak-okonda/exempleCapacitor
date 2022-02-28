@@ -6,7 +6,7 @@ import { createEmotionCache } from '../utils/create-emotion-cache';
 class CustomDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="fr">
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />

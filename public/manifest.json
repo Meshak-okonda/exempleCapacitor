@@ -3,10 +3,11 @@
 	"short_name": "Fleet Management",
 	"theme_color": "#000000",
 	"background_color": "#ffffff",
-	"display": "minimal-ui",
+	"display": "fullscreen",
 	"orientation": "portrait",
 	"scope": "/",
 	"start_url": "/",
+	"splash_pages": null,
 	"icons": [
 		{
 			"src": "favicon.ico",
