@@ -25,7 +25,7 @@ import { FcStatistics } from "react-icons/fc";
 
 const items = [
   {
-    href: "/control", 
+    href: "/control",
     icon: <AiFillControl fontSize="small" />,
     title: "Controle",
   },
