@@ -14,7 +14,7 @@ import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { useAppDispatch } from "../hooks";
-import { connexionClear } from "../redux/slice/globalSlice";
+import { connexionClear } from "../redux/slice/userSlice";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 import { GiExitDoor, GiSteeringWheel } from "react-icons/gi";
@@ -25,7 +25,7 @@ import { FcStatistics } from "react-icons/fc";
 
 const items = [
   {
-    href: "/control",
+    href: "/control", 
     icon: <AiFillControl fontSize="small" />,
     title: "Controle",
   },
