@@ -24,16 +24,12 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.userConnected);
   const { vehicles } = useAppSelector((state) => state.globalState);
   const [day, setDay] = useState(null);
-  let idVehicle = vehicles.find(({ idDriver }) => idDriver === user.id)?.id;
+  let vehicle = vehicles.find(({ idDriver }) => idDriver === user.id);
 
-  if (!idVehicle)
+  if (!vehicle)
     return (
       <Card>
-        <CardHeader
-          title={
-            'Aucun Vehicule attribuer'
-          }
-        />
+        <CardHeader title={"Aucun Vehicule attribuer"} />
         <Divider />
         <CardContent>
           <Box
@@ -83,14 +79,13 @@ const Dashboard = () => {
               }}
               spacing={2}
             >
-              <Grid
-                item
-                xl={6}
-                lg={6}
-                sm={12}
-                xs={12}
-              >
-                <Card sx={{ height: 150 }}>
+              <Grid item xl={6} lg={6} sm={12} xs={12}>
+                <Card sx={{ height: 220 }}>
+                  <CardHeader
+                    sx={{ height: 50 }}
+                    title={`Vehicule : ${vehicle.name}`}
+                  />
+                  <Divider />
                   <CardContent>
                     <Box
                       sx={{
@@ -117,7 +112,7 @@ const Dashboard = () => {
                         dateFormat="dd/mm/yy"
                         yearRange="2010:2030"
                         placeholder="Date de selection "
-                        style={{width: "100%"}}
+                        style={{ width: "100%" }}
                       />
                     </Box>
                   </CardContent>
@@ -125,8 +120,8 @@ const Dashboard = () => {
               </Grid>
             </Grid>
             <Grid item lg={12} md={12} xl={12} xs={12}>
-              {idVehicle && day && (
-                <FormAddControl idVehicle={idVehicle} dateControl={day} />
+              {vehicle.id && day && (
+                <FormAddControl idVehicle={vehicle.id} dateControl={day} />
               )}
             </Grid>
           </Grid>
