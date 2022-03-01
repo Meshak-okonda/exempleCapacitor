@@ -67,7 +67,7 @@ const Login = () => {
         JSON.stringify({ ...connectionDriver, date: getDate() })
       );
       setTimeout(() => {
-        router.push("/dashbord");
+        router.push("/control");
       }, 2000);
     } else {
       const user = JSON.parse(await localStorage.getItem("user"));
