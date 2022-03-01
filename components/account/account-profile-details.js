@@ -7,97 +7,84 @@ import {
   Divider,
   Grid,
 } from '@mui/material';
-import { UPDATE_RESPONSABLE } from "../../graphql/queries";
-import { useForm, Controller } from 'react-hook-form';
+import { UPDATE_DRIVER } from "../../graphql/queries";
+import { useForm, Controller } from "react-hook-form";
 import { GetAges, GetSex, getDate } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { updateResponsableInState } from "../../redux/slice/globalSlice";
+import { connexionUser } from "../../redux/slice/userSlice";
 import PopUpMutation from "../custom/PopUpMutation";
 import ToastCustom from "../ToastCustom";
-import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ButtonSubmit from "../ButtonSubmit";
-
 
 export const AccountProfileDetails = (props) => {
   const { user } = useAppSelector((state) => state.userConnected);
   const dispatch = useAppDispatch();
-	const [data, setData] = useState(null);
+  const [data, setData] = useState(null);
   const [modalOn, setModalOn] = useState(false);
-	const [variablesMutation, setVariablesMutation] = useState({});
-	const handleClose = () => setModalON(false);
-	const [toast, setToast] = useState({
-		state: false,
-		message: '',
-		type: '',
-		header: '',
-		delay: null,
-	});
+  const [variablesMutation, setVariablesMutation] = useState({});
+  const handleClose = () => setModalOn(false);
+  const [toast, setToast] = useState({
+    state: false,
+    message: "",
+    type: "",
+    header: "",
+    delay: null,
+  });
 
-	useEffect(() => {
-		if (data) {
-			const { updateResponsable } = data;
-			dispatch(updateResponsableInState(updateResponsable));
-			localStorage.removeItem('user');
-			localStorage.setItem(
+  useEffect(async () => {
+    if (data) {
+      const { updateDriver } = data;
+      dispatch(connexionUser(updateDriver));
+      await localStorage.removeItem("user");
+      await localStorage.setItem(
         "user",
-        JSON.stringify({ ...updateResponsable, date: getDate() })
-      	);
-			setTimeout(() => {
-				setModalON(false);
-			}, 1000);
-		}
-	}, [data, dispatch]);
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		control,
-	} = useForm();
+        JSON.stringify({ ...updateDriver, date: getDate() })
+      );
+      setTimeout(() => {
+        handleClose();
+      }, 1000);
+    }
+  }, [data, dispatch]);
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm();
 
-	async function onSubmit(data) {
-    const { token, createdAt, id, date, superAdm, password, ...otherInfo } = user;
+  const removeProperty = (propKey, { [propKey]: propValue, ...rest }) => rest;
+  const removeProperties = (object, ...keys) =>
+    keys.length
+      ? removeProperties(removeProperty(keys.pop(), object), ...keys)
+      : object;
+
+  async function onSubmit(data) {
+    const otherInfo = removeProperties(user, "delete", 'password', 'date', 'id', 'createdAt');
     setVariablesMutation({ ...otherInfo, ...data });
     setModalOn(true);
   }
-	const recupNumberInString = (string) => {
-		const regex = /\d+/g;
-		const result = string.match(regex);
-		return result[0];
-	};
 
   const confirmMutation = async (mutation) => {
-		try {
-			await mutation({
-				variables: {
-					updateResponsableId: user.id,
-					responsable: { ...variablesMutation, image: user.image },
-				},
-			});
-		} catch (error) {
-			setToast({
-				state: true,
-				message: JSON.stringify(error.message),
-				type: "danger",
-				header: "Erreur",
-				delay: 3000,
-			});
-		}
-	};
+    try {
+      await mutation({
+        variables: {
+          updateDriverId: user.id,
+          driver: { ...variablesMutation, image: user.image },
+        },
+      });
+    } catch (error) {
+      setToast({
+        state: true,
+        message: JSON.stringify(error.message),
+        type: "danger",
+        header: "Erreur",
+        delay: 3000,
+      });
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -197,7 +184,8 @@ export const AccountProfileDetails = (props) => {
                       {errors.lastName &&
                         errors.lastName.type === "minLength" && (
                           <small className="alert-danger p-1">
-                            La taille minimal n&apos;est pas respecter (3 caractères)
+                            La taille minimal n&apos;est pas respecter (3
+                            caractères)
                           </small>
                         )}
                       {errors.lastName &&
@@ -213,43 +201,46 @@ export const AccountProfileDetails = (props) => {
             </Grid>
             <Grid item md={6} xs={12}>
               <Controller
-                name="email"
+                name="password"
                 control={control}
                 rules={{
                   maxLength: 50,
-                  minLength: 3,
-                  pattern:
-                    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  minLength: 8,
+                  pattern: /^[0-9]+$/,
                 }}
-                defaultValue={user.email}
+                defaultValue=""
                 render={({ field }) => {
                   return (
                     <>
                       <TextField
                         fullWidth
-                        label="E - Mail *"
+                        label="Mot de passe"
                         variant="outlined"
                         id={field.name}
                         error={errors.name}
                         {...field}
-                        value={field.value}
                         type="text"
                       />
-                      {errors.email && errors.email.type === "maxLength" && (
-                        <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (20 caractères)
-                        </small>
-                      )}
-                      {errors.email && errors.email.type === "minLength" && (
-                        <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (3 caractères)
-                        </small>
-                      )}
-                      {errors.email && errors.email.type === "pattern" && (
-                        <small className="alert-danger p-1">
-                          email invalide
-                        </small>
-                      )}
+                      {errors.password &&
+                        errors.password.type === "required" && (
+                          <small className="alert-danger p-1">
+                            le mot de passe est requis !
+                          </small>
+                        )}
+                      {errors.password &&
+                        errors.password.type === "maxLength" && (
+                          <small className="alert-danger p-1">
+                            La taille minimal n&apos;est pas respecter (50
+                            caractères)
+                          </small>
+                        )}
+                      {errors.password &&
+                        errors.password.type === "minLength" && (
+                          <small className="alert-danger p-1">
+                            La taille minimal n&apos;est pas respecter (8
+                            caractères)
+                          </small>
+                        )}
                     </>
                   );
                 }}
@@ -280,12 +271,14 @@ export const AccountProfileDetails = (props) => {
                       />
                       {errors.phone && errors.phone.type === "maxLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (50 caractères)
+                          La taille minimal n&apos;est pas respecter (50
+                          caractères)
                         </small>
                       )}
                       {errors.phone && errors.phone.type === "minLength" && (
                         <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (8 caractères)
+                          La taille minimal n&apos;est pas respecter (8
+                          caractères)
                         </small>
                       )}
                       {errors.phone && errors.phone.type === "pattern" && (
@@ -323,7 +316,9 @@ export const AccountProfileDetails = (props) => {
                         }}
                       >
                         {GetAges().map(({ value, label }) => (
-                          <MenuItem value={value}key={label}>{label}</MenuItem>
+                          <MenuItem value={value} key={label}>
+                            {label}
+                          </MenuItem>
                         ))}
                       </Select>
                       {errors.age && (
@@ -362,54 +357,14 @@ export const AccountProfileDetails = (props) => {
                         }}
                       >
                         {GetSex().map(({ value, label }) => (
-                          <MenuItem value={value} key={label}>{label}</MenuItem>
+                          <MenuItem value={value} key={label}>
+                            {label}
+                          </MenuItem>
                         ))}
                       </Select>
                       {errors.sex && (
                         <small className="alert-danger p-1">
                           Le sexe est requis !
-                        </small>
-                      )}
-                    </>
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <Controller
-                name="password"
-                control={control}
-                rules={{
-                  maxLength: 50,
-                  minLength: 8,
-                  pattern: /^[0-9]+$/,
-                }}
-                defaultValue=""
-                render={({ field }) => {
-                  return (
-                    <>
-                      <TextField
-                        fullWidth
-                        label="Mot de passe"
-                        variant="outlined"
-                        id={field.name}
-                        error={errors.name}
-                        {...field}
-                        type="text"
-                      />
-                      {errors.password && errors.password.type === "required" && (
-                        <small className="alert-danger p-1">
-                          le mot de passe est requis !
-                        </small>
-                      )}
-                      {errors.password && errors.password.type === "maxLength" && (
-                        <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (50 caractères)
-                        </small>
-                      )}
-                      {errors.password && errors.password.type === "minLength" && (
-                        <small className="alert-danger p-1">
-                          La taille minimal n&apos;est pas respecter (8 caractères)
                         </small>
                       )}
                     </>
@@ -432,7 +387,7 @@ export const AccountProfileDetails = (props) => {
       </Card>
       {modalOn && (
         <PopUpMutation
-          query={UPDATE_RESPONSABLE}
+          query={UPDATE_DRIVER}
           setModalON={setModalOn}
           openModal={modalOn}
           confirmMutation={confirmMutation}
