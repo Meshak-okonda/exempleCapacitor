@@ -48,34 +48,34 @@ class CustomDocument extends Document {
   }
 }
 
-// CustomDocument.getInitialProps = async (ctx) => {
-//   const originalRenderPage = ctx.renderPage;
-//   const cache = createEmotionCache();
-//   const { extractCriticalToChunks } = createEmotionServer(cache);
+CustomDocument.getInitialProps = async (ctx) => {
+  const originalRenderPage = ctx.renderPage;
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
 
-//   ctx.renderPage = () => originalRenderPage({
-//     enhanceApp: (App) => (props) => (
-//       <App
-//         emotionCache={cache}
-//         {...props}
-//       />
-//     )
-//   });
+  ctx.renderPage = () => originalRenderPage({
+    enhanceApp: (App) => (props) => (
+      <App
+        emotionCache={cache}
+        {...props}
+      />
+    )
+  });
 
-//   const initialProps = await Document.getInitialProps(ctx);
-//   const emotionStyles = extractCriticalToChunks(initialProps.html);
-//   const emotionStyleTags = emotionStyles.styles.map((style) => (
-//     <style
-//       data-emotion={`${style.key} ${style.ids.join(' ')}`}
-//       key={style.key}
-//       dangerouslySetInnerHTML={{ __html: style.css }}
-//     />
-//   ));
+  const initialProps = await Document.getInitialProps(ctx);
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(' ')}`}
+      key={style.key}
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ));
 
-//   return {
-//     ...initialProps,
-//     styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags]
-//   };
-// };
+  return {
+    ...initialProps,
+    styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags]
+  };
+};
 
 export default CustomDocument;
