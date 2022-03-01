@@ -1,6 +1,5 @@
 import React from "react";
 import { OverlayTrigger, Popover, Button } from "react-bootstrap";
-import ImageModal from "./ImageModal";
 
 export default function PopOver({ title, body, buttonPlaceHolder, image }) {
   const popover = (
@@ -11,15 +10,6 @@ export default function PopOver({ title, body, buttonPlaceHolder, image }) {
       {body && (
         <Popover.Body>
           <p style={{ fontSize: 11 }}>{body}</p>
-          {image && image.length ? (
-            <div className="d-flex">
-              {image.map((img, key) => {
-                return <ImageModal key={key} img={img} />;
-              })}
-            </div>
-          ) : (
-            <ImageModal img={image} />
-          )}
         </Popover.Body>
       )}
     </Popover>
@@ -27,15 +17,15 @@ export default function PopOver({ title, body, buttonPlaceHolder, image }) {
   return (
     <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
       {title === "Bonne" || buttonPlaceHolder === "Kilométrage" ? (
-        <Button variant="success">
+        <Button style={{ backgroundColor: "#003863" }}>
           {buttonPlaceHolder ? buttonPlaceHolder : "Voir"}
         </Button>
       ) : title === "Manque" ? (
-        <Button variant="danger">
+        <Button style={{ backgroundColor: "#e53935" }}>
           {buttonPlaceHolder ? buttonPlaceHolder : "Voir"}
         </Button>
       ) : (
-        <Button variant="warning">
+        <Button style={{ backgroundColor: "#FB8C00" }}>
           {buttonPlaceHolder ? buttonPlaceHolder : "Voir"}
         </Button>
       )}
