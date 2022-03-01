@@ -152,27 +152,30 @@ export default function PopUpVerifControl({
             }}
             spacing={3}
           >
-            <div
+            <Grid
+              item
               style={styleResum}
               className="bg-success d-flex justify-content-center align-items-center bold"
             >
               Bonne <br />
               {stateVehicle.good === 0 ? "Aucun" : stateVehicle.good}
-            </div>
-            <div
+            </Grid>
+            <Grid
+              item
               style={styleResum}
               className="bg-warning d-flex justify-content-center align-items-center bold"
             >
               Abimé <br />
               {stateVehicle.damaged === 0 ? "Aucun" : stateVehicle.damaged}
-            </div>
-            <div
+            </Grid>
+            <Grid
+              item
               style={styleResum}
               className="bg-danger d-flex justify-content-center align-items-center p-0 center bold"
             >
               Manque <br />
               {stateVehicle.missing === 0 ? "Aucun" : stateVehicle.missing}
-            </div>
+            </Grid>
           </Grid>
           <Grid container spacing={3}>
             {dataControl?.map((data, key) => {
