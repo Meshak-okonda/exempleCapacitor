@@ -72,15 +72,13 @@ export const DashboardSidebar = (props) => {
           height: "100%",
         }}
       >
-        <div>
-          <Box sx={{ p: 3 }} centered>
+          <Box sx={{ p: 3, display:"flex", justifyContent:'center' }} centered>
             <NextLink href="/control" passHref>
               <a>
                 <Logo height={60} width={120} />
               </a>
             </NextLink>
           </Box>
-        </div>
         <Divider
           sx={{
             borderColor: "#FFFFFF",
