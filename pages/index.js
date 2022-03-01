@@ -118,7 +118,8 @@ const Login = () => {
                 Connection
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Bienvenu l'interface de connection pour chauffeur de fleet management software
+                Bienvenu l&apos;interface de connection pour chauffeur de fleet
+                management software
               </Typography>
             </Box>
             <Box
