@@ -109,9 +109,12 @@ const Dashboard = () => {
                             .join("/");
                           setDay(dateNow);
                         }}
+                        touchUI
+                        style={{ zIndex: 100000 }}
+                        maxDate={new Date()}
                         dateFormat="dd/mm/yy"
                         yearRange="2010:2030"
-                        placeholder="Date de selection "
+                        placeholder="Date du controle "
                         style={{ width: "100%" }}
                       />
                     </Box>
@@ -121,7 +124,11 @@ const Dashboard = () => {
             </Grid>
             <Grid item lg={12} md={12} xl={12} xs={12}>
               {vehicle.id && day && (
-                <FormAddControl idVehicle={vehicle.id} dateControl={day} />
+                <FormAddControl
+                  setDay={setDay}
+                  idVehicle={vehicle.id}
+                  dateControl={day}
+                />
               )}
             </Grid>
           </Grid>
