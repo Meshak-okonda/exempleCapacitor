@@ -110,12 +110,11 @@ const Dashboard = () => {
                           setDay(dateNow);
                         }}
                         touchUI
-                        style={{ zIndex: 100000 }}
                         maxDate={new Date()}
                         dateFormat="dd/mm/yy"
                         yearRange="2010:2030"
                         placeholder="Date du controle "
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", zIndex: 100000 }}
                       />
                     </Box>
                   </CardContent>
