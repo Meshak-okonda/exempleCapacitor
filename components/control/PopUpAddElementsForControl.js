@@ -118,19 +118,19 @@ export default function PopUpAddElementsForControl({
             />
             <br />
             {!dataControl.comment && (
-              <small className="alert-danger p-1">
+              <small className="mb-1 alert-danger p-1">
                 Le commentaire est requis ! (min: 3 caractères, max: 150
                 caractères)
               </small>
             )}
           </div>
-          <div className="p-field p-col-12">
+          <div className=" mt-2 mb-2 p-field p-col-12">
             <Form.Group controlId="formFileSm" className="mb-3">
               <label htmlFor="address">Photo de l&apos;element !</label>
               <Form.Control type="file" size="md" onChange={chooseImage} />
             </Form.Group>
           </div>
-          <div className="p-field p-col-12 d-flex align-content-center">
+          <div className="mt-2 mb-2 p-field p-col-12 d-flex align-content-center">
             {dataControl.image &&
               dataControl.image.length > 0 &&
               dataControl.image.map((image, key) => {
