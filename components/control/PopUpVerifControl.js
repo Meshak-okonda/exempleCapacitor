@@ -5,7 +5,7 @@ import PopOver from '../custom/PopOver';
 import ButtonYellow from '../custom/ButtonYellow';
 import { useMutation } from '@apollo/client';
 import { CREATE_CONTROL_VEHICLE } from '../../graphql/queries';
-import ToastCustom from "../custom/ToastCustom";
+import ToastCustom from "../ToastCustom";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -62,7 +62,9 @@ export default function PopUpVerifControl({
 	});
 	if (data) {
 		reset();
-		handleClose();
+		setTimeout(() => {
+			handleClose();
+		}, 2000)
 		return (
 			<ToastCustom
 				stateToast={true}
@@ -116,7 +118,6 @@ export default function PopUpVerifControl({
 				},
 			});
 		} catch (error) {
-			// eslint-disable-next-line no-console
 			console.log(error);
 		}
 	};
@@ -126,8 +127,8 @@ export default function PopUpVerifControl({
 		}
 	};
 	return (
-		<>
-		<BootstrapDialog
+    <>
+      <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         fullWidth={true}
@@ -140,57 +141,70 @@ export default function PopUpVerifControl({
         >
           Resumé du controle
         </BootstrapDialogTitle>
-          <DialogContent dividers>
-				<Grid container sx={{
-					pd: 3
-				}} spacing={3}>
-					<div
-						style={styleResum}
-						className='bg-success d-flex justify-content-center align-items-center bold'>
-						Bonne <br />
-						{stateVehicle.good === 0 ? 'Aucun' : stateVehicle.good}
-					</div>
-					<div
-						style={styleResum}
-						className='bg-warning d-flex justify-content-center align-items-center bold'>
-						Abimé <br />
-						{stateVehicle.damaged === 0 ? 'Aucun' : stateVehicle.damaged}
-					</div>
-					<div
-						style={styleResum}
-						className='bg-danger d-flex justify-content-center align-items-center p-0 center bold'>
-						Manque <br />
-						{stateVehicle.missing === 0 ? 'Aucun' : stateVehicle.missing}
-					</div>
-				</Grid>
-				<Grid container spacing={3}>
-					{dataControl?.map((data, key) => {
-						return (
-							<Grid item lg={4} sm={12} xl={4} xs={6}
-								key={key}>
-								<PopOver
-									buttonPlaceHolder={GetFrenchElementControl(data.name)}
-									title={
-										data[data.name]
-											? data[data.name].state
-												? data[data.name].state
-												: data[data.name]
-											: ''
-									}
-									body={data[data.name] ? data[data.name].comment : ''}
-									image={data[data.name] ? data[data.name].image : ''}
-								/>
-							</Grid>
-						);
-					})}
-				</Grid>
-				</DialogContent>
-          <DialogActions>
-			  {loading ? <Spinner animation='border' variant='blue' /> : <ButtonSubmit autoFocus onClick={validateControl}  />}
-          </DialogActions>
+        <DialogContent dividers>
+          <Grid
+            container
+            sx={{
+              pt: 3,
+              pb: 3,
+              display: "flex",
+              justifyContent: "space-evenly",
+            }}
+            spacing={3}
+          >
+            <div
+              style={styleResum}
+              className="bg-success d-flex justify-content-center align-items-center bold"
+            >
+              Bonne <br />
+              {stateVehicle.good === 0 ? "Aucun" : stateVehicle.good}
+            </div>
+            <div
+              style={styleResum}
+              className="bg-warning d-flex justify-content-center align-items-center bold"
+            >
+              Abimé <br />
+              {stateVehicle.damaged === 0 ? "Aucun" : stateVehicle.damaged}
+            </div>
+            <div
+              style={styleResum}
+              className="bg-danger d-flex justify-content-center align-items-center p-0 center bold"
+            >
+              Manque <br />
+              {stateVehicle.missing === 0 ? "Aucun" : stateVehicle.missing}
+            </div>
+          </Grid>
+          <Grid container spacing={3}>
+            {dataControl?.map((data, key) => {
+              return (
+                <Grid item lg={4} sm={12} xl={4} xs={6} key={key}>
+                  <PopOver
+                    buttonPlaceHolder={GetFrenchElementControl(data.name)}
+                    title={
+                      data[data.name]
+                        ? data[data.name].state
+                          ? data[data.name].state
+                          : data[data.name]
+                        : ""
+                    }
+                    body={data[data.name] ? data[data.name].comment : ""}
+                    image={data[data.name] ? data[data.name].image : ""}
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          {loading ? (
+            <Spinner animation="border" variant="blue" />
+          ) : (
+            <ButtonSubmit autoFocus onClick={validateControl} />
+          )}
+        </DialogActions>
       </BootstrapDialog>
-		</>
-	);
+    </>
+  );
 }
 
 
