@@ -206,7 +206,6 @@ export const AccountProfileDetails = (props) => {
                 rules={{
                   maxLength: 50,
                   minLength: 8,
-                  pattern: /^[0-9]+$/,
                 }}
                 defaultValue=""
                 render={({ field }) => {
@@ -221,12 +220,6 @@ export const AccountProfileDetails = (props) => {
                         {...field}
                         type="text"
                       />
-                      {errors.password &&
-                        errors.password.type === "required" && (
-                          <small className="alert-danger p-1">
-                            le mot de passe est requis !
-                          </small>
-                        )}
                       {errors.password &&
                         errors.password.type === "maxLength" && (
                           <small className="alert-danger p-1">
