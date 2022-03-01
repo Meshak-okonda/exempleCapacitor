@@ -114,7 +114,7 @@ const Dashboard = () => {
                         dateFormat="dd/mm/yy"
                         yearRange="2010:2030"
                         placeholder="Date du controle "
-                        style={{ width: "100%", zIndex: 100000 }}
+                        style={{ width: "100%"}}
                       />
                     </Box>
                   </CardContent>
