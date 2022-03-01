@@ -118,7 +118,7 @@ const Login = () => {
                 Connection
               </Typography>
               <Typography color="textSecondary" gutterBottom variant="body2">
-                Bienvenu dans de connection de fleet management software
+                Bienvenu l'interface de connection pour chauffeur de fleet management software
               </Typography>
             </Box>
             <Box
@@ -167,21 +167,6 @@ const Login = () => {
                 Connection
               </Button>
             </Box>
-            <Typography color="textSecondary" variant="body2">
-              Mot de passe oublié ?{" "}
-              <NextLink href="/register">
-                <Link
-                  to="/register"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Cliquez ici
-                </Link>
-              </NextLink>
-            </Typography>
           </form>
         </Container>
       </Box>
