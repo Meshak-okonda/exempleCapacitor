@@ -1458,7 +1458,7 @@ export default function FormAddControl({ idVehicle, dateControl, setDay }) {
             setModalOn={setModalAdd}
             dataControl={vehicleControl}
             date={dateControl}
-					setDay={ setDay }
+            setDay={ setDay }
             idVehicle={idVehicle}
             reset={reset}
           />
