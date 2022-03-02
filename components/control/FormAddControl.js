@@ -135,6 +135,7 @@ export default function FormAddControl({ idVehicle, dateControl, setDay }) {
                                   ? field.value.state
                                   : null
                               }
+                              autoFocus
                               onChange={({ value }) => {
                                 if (value === "Manque" || value === "Abimé") {
                                   field.onChange({ state: value });
@@ -1448,7 +1449,7 @@ export default function FormAddControl({ idVehicle, dateControl, setDay }) {
                 </Grid>
               </Grid>
               <br />
-              <ButtonSubmit autoFocus type="submit" />
+              <ButtonSubmit type="submit" />
             </CardContent>
           </Card>
         </form>
