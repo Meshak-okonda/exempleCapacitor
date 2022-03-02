@@ -11,7 +11,6 @@ const NotFound = () => (
       </title>
     </Head>
     <Box
-      component="main"
       sx={{
         alignItems: 'center',
         display: 'flex',
