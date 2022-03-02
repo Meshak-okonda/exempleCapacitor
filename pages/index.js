@@ -103,7 +103,6 @@ const Login = () => {
         <title>Page connection | Fleet Management Soft</title>
       </Head>
       <Box
-        component="main"
         sx={{
           alignItems: "center",
           display: "flex",
