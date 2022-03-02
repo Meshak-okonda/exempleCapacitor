@@ -24,7 +24,7 @@ const Dashboard = () => {
   const { user } = useAppSelector((state) => state.userConnected);
   const { vehicles } = useAppSelector((state) => state.globalState);
   const [day, setDay] = useState(null);
-  let vehicle = vehicles.find(({ idDriver }) => idDriver === user.id);
+  let vehicle = vehicles.filter((veh) => veh.delete != false).find(({ idDriver }) => idDriver === user.id);
 
   if (!vehicle)
     return (
