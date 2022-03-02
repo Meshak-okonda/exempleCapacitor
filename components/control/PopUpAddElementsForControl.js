@@ -127,7 +127,12 @@ export default function PopUpAddElementsForControl({
           <div className=" mt-2 mb-2 p-field p-col-12">
             <Form.Group controlId="formFileSm" className="mb-3">
               <label htmlFor="address">Photo de l&apos;element !</label>
-              <Form.Control type="file" size="md" onChange={chooseImage} />
+              <Form.Control
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                size="md"
+                onChange={chooseImage}
+              />
             </Form.Group>
           </div>
           <div className="mt-2 mb-2 p-field p-col-12 d-flex align-content-center">
