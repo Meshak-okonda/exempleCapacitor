@@ -57,16 +57,16 @@ export default function PopUpMutation({
 			setModalON(false);
 		}, 60000);
 		return (
-			<>
-				<ToastCustom
-					stateToast={true}
-					body={msg}
-					header='Erreur'
-					type='danger'
-					delay={5000}
-				/>
-			</>
-		);
+      <>
+        <ToastCustom
+          stateToast={true}
+          body={msg}
+          header="Erreur"
+          type="error"
+          delay={5000}
+        />
+      </>
+    );
 	}
 	if (!data) {
 		return (
