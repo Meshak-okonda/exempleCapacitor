@@ -54,7 +54,7 @@ export default function PopUpVerifControl({
   if (data) {
     reset();
     setDay(null);
-    setTimeout(()=>
+    setTimeout(()=>{
       handleClose();
     }, 5000)
     return (
