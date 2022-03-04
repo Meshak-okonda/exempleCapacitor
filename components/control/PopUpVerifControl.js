@@ -71,7 +71,7 @@ export default function PopUpVerifControl({
         stateToast={true}
         body="Erreur lors de l\'ajout du controle"
         header="Erreur"
-        type="danger"
+        type="error"
         delay={5000}
       />
     );
