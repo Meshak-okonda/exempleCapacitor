@@ -63,7 +63,7 @@ export default function PopUpAddElementsForControl({
 				state: true,
 				body: `Une Erreur s'est produite`,
 				header: 'Erreur',
-				type: 'danger',
+				type: 'error',
 			});
 		}
 	}
