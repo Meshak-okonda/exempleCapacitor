@@ -79,7 +79,7 @@ export const AccountProfileDetails = (props) => {
       setToast({
         state: true,
         message: JSON.stringify(error.message),
-        type: "danger",
+        type: "error",
         header: "Erreur",
         delay: 3000,
       });
