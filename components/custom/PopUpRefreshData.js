@@ -71,16 +71,16 @@ export default function PopUpRefreshData() {
 			btContent = 'Reessayer';
 		}
 		return (
-			<>
-				<ToastCustom
-					stateToast={true}
-					body={msg}
-					header={title}
-					type='danger'
-					delay={20000}
-				/>
-			</>
-		);
+      <>
+        <ToastCustom
+          stateToast={true}
+          body={msg}
+          header={title}
+          type="error"
+          delay={20000}
+        />
+      </>
+    );
 	}
 	Refresh_Redux_State(data);
 	return (
