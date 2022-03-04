@@ -53,8 +53,10 @@ export default function PopUpVerifControl({
   });
   if (data) {
     reset();
-    handleClose();
     setDay(null);
+    setTimeout(()=>
+      handleClose();
+    }, 5000)
     return (
       <ToastCustom
         stateToast={true}
