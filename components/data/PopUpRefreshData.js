@@ -73,7 +73,7 @@ export default function PopUpRefreshData() {
           stateToast={true}
           body={msg}
           header={title}
-          type="danger"
+          type="error"
           delay={20000}
         />
       </>
