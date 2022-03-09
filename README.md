@@ -8,14 +8,14 @@ Author : ##Méshak Ahoka (portfolio : https://ahokaokonda.netlify.app/)
 
 ## Nodejs, npm or yarn is REQUIRED for execute this project
 
-First Step for execute this project
 
-## npm run prepare OR yarn run prepare
+To get started, just clone the repository and run `npm install && npm run dev`:
 
-Second Step for execute this project
+    npm install
+    npm run dev
 
-## npm run prepare OR yarn run prepare
+If you wanted to run this site in production, you should install modules then build the site with `npm run build` and run it with `npm start`:
 
-Third Step for execute this project
-
-## npm run start OR yarn run start
+    npm install
+    npm run build
+    npm start

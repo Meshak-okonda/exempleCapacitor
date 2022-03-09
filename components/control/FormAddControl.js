@@ -80,31 +80,12 @@ export default function FormAddControl({ idVehicle, dateControl, setDay }) {
       <Card>
         <CardHeader
           title={
-            error && error.message ? error.message : "Controle inexistant !"
+            error && error.message.indexOf("fetch") > -1
+              ? 'Verifiez votre connection !'
+              : error.message
           }
         />
         <Divider />
-        <CardContent>
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              alt="Under development"
-              src="/static/images/undraw_page_not_found_su7k.svg"
-              style={{
-                marginTop: 10,
-                display: "inline-block",
-                maxWidth: "100%",
-                width: 500,
-                height: 500,
-              }}
-            />
-          </Box>
-        </CardContent>
       </Card>
     );
   if (!data.getVerifiedVerificationElementsOfOneDay)
@@ -1471,27 +1452,6 @@ export default function FormAddControl({ idVehicle, dateControl, setDay }) {
       <Card>
         <CardHeader title={"Un controle existe déjà à la date donné"} />
         <Divider />
-        <CardContent>
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              alt="Under development"
-              src="/static/images/undraw_page_not_found_su7k.svg"
-              style={{
-                marginTop: 10,
-                display: "inline-block",
-                maxWidth: "100%",
-                width: 500,
-                height: 500,
-              }}
-            />
-          </Box>
-        </CardContent>
       </Card>
     </>
   );

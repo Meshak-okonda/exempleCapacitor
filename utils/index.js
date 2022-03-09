@@ -99,13 +99,10 @@ export async function PostImage(image) {
 	formData.append('file', image);
 	formData.append('upload_preset', 'cps_fleets');
 
-	const datas = await fetch(
-		'https://api.cloudinary.com/v1_1/drngt0gv3/image/upload',
-		{
-			method: 'POST',
-			body: formData,
-		}
-	).then((r) => r.json());
+	const datas = await fetch(process.env.URL_ClOUDINARY, {
+    method: "POST",
+    body: formData,
+  }).then((r) => r.json());
 
 	return datas;
 }
