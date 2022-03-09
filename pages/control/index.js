@@ -32,25 +32,6 @@ const Dashboard = () => {
         <CardHeader title={"Aucun Vehicule attribuer"} />
         <Divider />
         <CardContent>
-          <Box
-            sx={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              alt="Under development"
-              src="/static/images/undraw_page_not_found_su7k.svg"
-              style={{
-                marginTop: 10,
-                display: "inline-block",
-                maxWidth: "100%",
-                width: 500,
-                height: 500,
-              }}
-            />
-          </Box>
         </CardContent>
       </Card>
     );
