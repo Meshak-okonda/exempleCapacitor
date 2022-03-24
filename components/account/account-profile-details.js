@@ -138,7 +138,7 @@ export const AccountProfileDetails = (props) => {
                         <small className="alert-danger p-1">
                           Le nom ne doit contenir que des lettres
                         </small>
-                      )}
+                      )} 
                     </>
                   );
                 }}
