@@ -6,10 +6,10 @@ module.exports = withPWA({
     dest: "public",
     register: true,
     skipWaiting: true,
-    runtimeCaching,
+    runtimeCaching
   },
   env: {
     URL_GRAPHQL: "https://cpsfleets.herokuapp.com/graphql",
-    URL_ClOUDINARY: "https://api.cloudinary.com/v1_1/drngt0gv3/image/upload",
-  },
+    URL_ClOUDINARY: "https://api.cloudinary.com/v1_1/drngt0gv3/image/upload"
+  }
 });

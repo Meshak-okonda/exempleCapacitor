@@ -8,6 +8,7 @@
 cd /home/ubuntu/fleet-management/ssr/app
 
 export NODE_ENV=production
+export PORT=3000
 
 if pm2 status | grep -w "fm-app"; then
   echo "fleet-management app service is already running"
