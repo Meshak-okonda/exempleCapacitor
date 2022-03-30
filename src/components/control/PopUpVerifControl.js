@@ -156,7 +156,7 @@ export default function PopUpVerifControl({
             <Grid
               item
               sx={{ p: 0.7, borderRadius: 1 }}
-              style={{ backgroundColor: "#e53935", color: "white" }}
+              style={{ backgroundColor: "#FB8C00", color: "white" }}
               className="bold text-center"
             >
               Abimé <br />
@@ -165,7 +165,7 @@ export default function PopUpVerifControl({
             <Grid
               item
               sx={{ p: 0.7, borderRadius: 1 }}
-              style={{ backgroundColor: "#FB8C00", color: "white" }}
+              style={{ backgroundColor: "#e53935", color: "white" }}
               className="bold text-center"
             >
               Manque <br />

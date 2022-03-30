@@ -15,7 +15,7 @@ export default function PopOver({ title, body, buttonPlaceHolder, image }) {
     </Popover>
   );
   return (
-    <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+    <OverlayTrigger trigger="click" placement="top" overlay={popover}>
       {title === "Bonne" || buttonPlaceHolder === "Kilométrage" ? (
         <Button style={{ backgroundColor: "#003863" }}>
           {buttonPlaceHolder ? buttonPlaceHolder : "Voir"}
