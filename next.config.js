@@ -9,7 +9,7 @@ module.exports = withPWA({
     runtimeCaching,
   },
   env: {
-    URL_GRAPHQL: "https://cpsfleets.herokuapp.com/graphql",
+    URL_GRAPHQL: "http://35.176.0.228:6000/graphql",
     URL_ClOUDINARY: "https://api.cloudinary.com/v1_1/drngt0gv3/image/upload",
   },
 });
