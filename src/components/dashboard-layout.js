@@ -27,7 +27,7 @@ export const DashboardLayout = (props) => {
 
   useEffect(async () => {
     const user = JSON.parse(await localStorage.getItem("user"));
-    if (user && user.date === getDate()) {
+    if (user) {
       dispatch(connexionUser(user));
     } else {
       await localStorage.removeItem("user");
