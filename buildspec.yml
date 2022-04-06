@@ -14,7 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Build project
-      - npm install
+      - npm install --force
       - cp next.config.prod.js next.config.js
       - npm run build
   post_build:
