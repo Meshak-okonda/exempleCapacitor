@@ -1,0 +1,10 @@
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'comflee.example.app',
+  appName: 'Fleet Chauffeur App',
+  webDir: 'out/',
+  bundledWebRuntime: false,
+};
+
+export default config;
